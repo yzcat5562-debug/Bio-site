@@ -1,0 +1,729 @@
+:root {
+    --bg-color: #050505;
+    --card-bg: rgba(15, 15, 15, 0.5);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #ffffff;
+    --text-secondary: #aaaaaa;
+    --accent: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Space Grotesk', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Enter Screen */
+.enter-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+.enter-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.enter-text {
+    font-size: 1.2rem;
+    letter-spacing: 3px;
+    font-weight: 300;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 0.3;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Background Video */
+.background-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -3;
+    object-fit: cover;
+}
+
+.background-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    /* Darkens the video */
+    backdrop-filter: blur(4px);
+    /* Blur over the video to maintain aesthetic */
+    -webkit-backdrop-filter: blur(4px);
+    z-index: -2;
+    pointer-events: none;
+}
+
+.particles {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Bio Card */
+.bio-container {
+    opacity: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 1.5s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.bio-container.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.bio-card {
+    background: rgba(10, 10, 10, 0.15);
+    /* Much more see-through */
+    backdrop-filter: blur(16px) saturate(160%);
+    /* Reduced blur so the video shows through clearly */
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    /* Crisper glass edge */
+    border-radius: 32px;
+    padding: 3rem 2.5rem;
+    width: 400px;
+    max-width: 90vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow:
+        0 30px 60px rgba(0, 0, 0, 0.6),
+        /* Deep shadow so the transparent glass floats */
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+    /* Top edge light reflection */
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle gradient glow simulating light hitting the glass */
+.bio-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.avatar-container {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.avatar {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.6);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-color 0.4s ease;
+}
+
+.avatar:hover {
+    transform: scale(1.08) rotate(5deg);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    width: 22px;
+    height: 22px;
+    background-color: #23a559;
+    /* Discord online color */
+    border-radius: 50%;
+    border: 4px solid #101010;
+    box-shadow: 0 0 10px rgba(35, 165, 89, 0.5);
+}
+
+.user-info {
+    text-align: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.username {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    letter-spacing: 1px;
+}
+
+.verified-badge-img {
+    width: 28px;
+    height: 28px;
+    vertical-align: middle;
+    margin-left: 5px;
+    object-fit: contain;
+    border-radius: 4px; /* Optional slight rounding */
+}
+
+.typewriter {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    min-height: 24px;
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+}
+
+.badges {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.badge {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.badge:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.badge-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.socials {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.social-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(10, 10, 10, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    min-width: 140px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+    padding: 8px;
+    gap: 5px;
+}
+
+.social-dropdown:hover .dropdown-content {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.dropdown-content a {
+    color: var(--text-primary);
+    padding: 10px 12px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: background 0.2s;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.dropdown-content a:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.social-link {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.social-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--clr);
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+}
+
+.social-link:hover {
+    transform: translateY(-4px);
+    border-color: var(--clr);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 15px var(--clr);
+}
+
+.social-link:hover::before {
+    opacity: 0.2;
+}
+
+.social-link:hover i {
+    color: var(--clr);
+    text-shadow: 0 0 8px var(--clr);
+}
+
+.social-link.no-border {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+}
+
+.social-link.no-border:hover {
+    background: transparent;
+    box-shadow: none;
+    transform: scale(1.1);
+}
+
+.custom-icon-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.links-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.custom-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    width: 100%;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.custom-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.btn-icon-img {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+/* Snowflake/dust particles animation */
+.particle {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: float linear infinite;
+    box-shadow: 0 0 5px #fff;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.6;
+    }
+
+    90% {
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+/* Audio Player */
+.audio-player {
+    width: 100%;
+    background: rgba(20, 20, 20, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 18px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 5px;
+}
+
+.audio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+}
+
+.audio-header i {
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: color 0.2s;
+}
+
+.audio-header i:hover {
+    color: var(--text-primary);
+}
+
+.volume-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#volume-slider {
+    width: 0;
+    opacity: 0;
+    transition: width 0.3s ease, opacity 0.3s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    background: rgba(255, 255, 255, 0.2);
+    height: 4px;
+    border-radius: 2px;
+    outline: none;
+    cursor: pointer;
+}
+
+.volume-container:hover #volume-slider,
+#volume-slider:active {
+    width: 60px;
+    opacity: 1;
+}
+
+#volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    cursor: pointer;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.song-title {
+    font-weight: 600;
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    letter-spacing: 0.5px;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.progress-bar-bg {
+    flex: 1;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    position: relative;
+    cursor: pointer;
+}
+
+.progress-fill {
+    width: 0%;
+    height: 100%;
+    background: var(--text-primary);
+    border-radius: 3px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.progress-thumb {
+    width: 12px;
+    height: 12px;
+    background: var(--text-primary);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    transition: width 0.2s, height 0.2s;
+}
+
+.progress-bar-bg:hover .progress-thumb {
+    width: 14px;
+    height: 14px;
+}
+
+.audio-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    color: var(--text-secondary);
+}
+
+.audio-controls i {
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.2s, transform 0.2s;
+}
+
+.audio-controls i:hover {
+    color: var(--text-primary);
+    transform: scale(1.1);
+}
+
+.play-btn-container {
+    width: 42px;
+    height: 42px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.play-btn-container:hover {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+}
+
+.play-btn-container i {
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.play-btn-container .fa-play {
+    margin-left: 3px;
+    /* visual center for play icon */
+}
+
+/* Discord Presence Card */
+.discord-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(88, 101, 242, 0.1);
+    border: 1px solid rgba(88, 101, 242, 0.3);
+    border-radius: 12px;
+    margin-bottom: 15px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    text-decoration: none;
+}
+
+.discord-card:hover {
+    background: rgba(88, 101, 242, 0.15);
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(88, 101, 242, 0.2);
+}
+
+.discord-avatar-wrapper {
+    position: relative;
+    display: flex; /* Helps with precise positioning */
+}
+
+#discord-pfp {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255, 255, 255, 0.1); /* Same as main profile */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3); /* Same as main profile */
+}
+
+.discord-status {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #747f8d; /* Offline default */
+    border: 3px solid rgba(25, 25, 25, 0.9);
+}
+
+.status-online { background: #3ba55c; }
+.status-idle { background: #faa61a; }
+.status-dnd { background: #ed4245; }
+.status-offline { background: #747f8d; }
+
+.discord-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 1;
+}
+
+.discord-username {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+}
+
+.discord-id {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.discord-watermark {
+    position: absolute;
+    right: -15px;
+    bottom: -15px;
+    font-size: 5.5rem;
+    color: rgba(88, 101, 242, 0.1);
+    z-index: 0;
+    transform: rotate(-15deg);
+}
+
+/* Custom Cursor */
+* {
+    cursor: url('media/cursor.png'), auto !important;
+}
+
+a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar-bg, .play-btn-container, .volume-slider, .enter-screen {
+    cursor: url('media/cursor.png'), pointer !important;
+}
+
+/* YouTube Button Specifics */
+.yt-btn {
+    justify-content: center; /* Center the whole group */
+    gap: 15px;
+}
+
+.yt-text-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    line-height: 1.2;
+}
+
+.yt-username {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.yt-sub-count {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    font-weight: 400;
+    margin-top: 2px;
+}
