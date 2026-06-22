@@ -36,30 +36,39 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(typeEffect, typeSpeed);
     }
 
-    // Create background particles
-    function createParticles() {
+    // Create continuous background particles (snowflakes)
+    function spawnParticle() {
         const particlesContainer = document.getElementById('particles');
-        const particleCount = 60;
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
 
-        for (let i = 0; i < particleCount; i++) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
+        // Random properties for natural look
+        const size = Math.random() * 2 + 1;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 15 + 10; // Slow falling
 
-            // Random properties for natural look
-            const size = Math.random() * 2 + 1;
-            const left = Math.random() * 100;
-            const duration = Math.random() * 15 + 10; // Slow falling
-            const delay = Math.random() * 5;
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${left}%`;
+        particle.style.top = `-10px`;
+        particle.style.animationDuration = `${duration}s`;
 
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${left}%`;
-            particle.style.top = `-10px`;
-            particle.style.animationDuration = `${duration}s`;
-            particle.style.animationDelay = `${delay}s`;
+        particlesContainer.appendChild(particle);
 
-            particlesContainer.appendChild(particle);
+        // Clean up particle after it finishes falling to prevent lag
+        setTimeout(() => {
+            particle.remove();
+        }, duration * 1000);
+    }
+
+    function startParticles() {
+        // Pre-fill screen so we don't start with 0 snowflakes
+        for (let i = 0; i < 40; i++) {
+            setTimeout(spawnParticle, Math.random() * 8000);
         }
+        
+        // Continuously spawn new snowflakes
+        setInterval(spawnParticle, 300); // 1 new snowflake every 300ms
     }
 
     // Handle initial click to enter
@@ -85,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Start effects
         setTimeout(typeEffect, 1200);
-        createParticles();
+        startParticles();
     });
 
     // 3D Tilt effect on bio card
@@ -117,12 +126,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Custom Audio Player Logic
     const playPauseBtn = document.getElementById('play-pause-btn');
     const playIcon = document.getElementById('play-icon');
+    const prevSongBtn = document.getElementById('prev-song-btn');
+    const nextSongBtn = document.getElementById('next-song-btn');
     const muteBtn = document.getElementById('mute-btn');
     const currentTimeEl = document.getElementById('current-time');
     const totalTimeEl = document.getElementById('total-time');
     const progressBarBg = document.getElementById('progress-bar-bg');
     const progressFill = document.getElementById('progress-fill');
     const progressThumb = document.getElementById('progress-thumb');
+    const songTitleEl = document.querySelector('.song-title');
+
+    // Playlist
+    const playlist = [
+        { title: "assumptions", src: "media/bg-music.mp3" },
+        { title: "Lost Soul", src: "media/lost-soul.mp3" }
+    ];
+    let currentTrackIndex = 0;
+
+    function loadTrack(index) {
+        if (index < 0) index = playlist.length - 1;
+        if (index >= playlist.length) index = 0;
+        
+        currentTrackIndex = index;
+        const track = playlist[currentTrackIndex];
+        
+        const wasPlaying = !bgMusic.paused && hasEntered;
+        
+        bgMusic.src = track.src;
+        songTitleEl.textContent = track.title;
+        bgMusic.load();
+        
+        if (wasPlaying) {
+            bgMusic.play().catch(e => console.log(e));
+        }
+    }
 
     function formatTime(seconds) {
         if (isNaN(seconds)) return "00:00";
@@ -164,6 +201,41 @@ document.addEventListener('DOMContentLoaded', () => {
             bgMusic.play();
         } else {
             bgMusic.pause();
+        }
+    });
+
+    // Next/Prev track logic
+    bgMusic.addEventListener('ended', () => {
+        loadTrack(currentTrackIndex + 1);
+        bgMusic.play();
+    });
+
+    prevSongBtn.addEventListener('click', () => {
+        loadTrack(currentTrackIndex - 1);
+        if (hasEntered && bgMusic.paused) bgMusic.play();
+    });
+
+    nextSongBtn.addEventListener('click', () => {
+        loadTrack(currentTrackIndex + 1);
+        if (hasEntered && bgMusic.paused) bgMusic.play();
+    });
+
+    // Keyboard controls (Space, Left/Right Arrows)
+    document.addEventListener('keydown', (e) => {
+        if (!hasEntered) return;
+        
+        if (e.code === 'Space') {
+            e.preventDefault(); // Prevent page scrolling
+            if (bgMusic.paused) bgMusic.play();
+            else bgMusic.pause();
+        } else if (e.code === 'ArrowLeft') {
+            e.preventDefault();
+            loadTrack(currentTrackIndex - 1);
+            if (bgMusic.paused) bgMusic.play();
+        } else if (e.code === 'ArrowRight') {
+            e.preventDefault();
+            loadTrack(currentTrackIndex + 1);
+            if (bgMusic.paused) bgMusic.play();
         }
     });
 
@@ -277,4 +349,76 @@ document.addEventListener('DOMContentLoaded', () => {
         fetchDiscordStatus();
         setInterval(fetchDiscordStatus, 10000);
     }
+
+    // --- YouTube Real-Time Stats ---
+    // IMPORTANT: You need a YouTube Data API v3 Key and your Channel ID for this to work.
+    const ytApiKey = 'REPLACE_WITH_YOUR_YOUTUBE_API_KEY'; 
+    const ytChannelId = 'REPLACE_WITH_YOUR_CHANNEL_ID'; // e.g., UCxxxxxxxxxxxxxxxxxx
+    
+    function formatYTNumber(num) {
+        if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+        if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+        return num.toString();
+    }
+    
+    async function fetchYouTubeStats() {
+        if (ytApiKey === 'REPLACE_WITH_YOUR_YOUTUBE_API_KEY') return;
+        
+        try {
+            const res = await fetch(`https://www.googleapis.com/youtube/v3/channels?part=statistics&id=${ytChannelId}&key=${ytApiKey}`);
+            const data = await res.json();
+            
+            if (data.items && data.items.length > 0) {
+                const stats = data.items[0].statistics;
+                document.getElementById('yt-subs').textContent = formatYTNumber(stats.subscriberCount);
+            }
+        } catch (e) {
+            console.log("Could not fetch YouTube stats", e);
+        }
+    }
+    
+    // Fetch initially and then every 30 seconds
+    if (ytApiKey !== 'REPLACE_WITH_YOUR_YOUTUBE_API_KEY') {
+        fetchYouTubeStats();
+        setInterval(fetchYouTubeStats, 30000);
+    }
+    // --- Event Countdowns ---
+    function getDaysUntil(month, day) {
+        const now = new Date();
+        let y = now.getFullYear();
+        let d = new Date(y, month, day);
+        
+        // If the date has passed this year, calculate for next year
+        // We add 86400000 (1 day in ms) so it shows 0 on the actual day instead of immediately jumping to 364
+        if (now.getTime() > d.getTime() + 86400000) {
+            d = new Date(y + 1, month, day);
+        }
+        
+        const diff = d.getTime() - now.getTime();
+        return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+    }
+
+    function updateCountdowns() {
+        const cdNewYears = document.getElementById('cd-newyears');
+        const cdJuly4 = document.getElementById('cd-july4');
+        const cdHalloween = document.getElementById('cd-halloween');
+        const cdChristmas = document.getElementById('cd-christmas');
+
+        // New Years: Jan 1 (month 0)
+        if (cdNewYears) cdNewYears.textContent = getDaysUntil(0, 1);
+        
+        // 4th of July: July 4 (month 6)
+        if (cdJuly4) cdJuly4.textContent = getDaysUntil(6, 4);
+        
+        // Halloween: Oct 31 (month 9)
+        if (cdHalloween) cdHalloween.textContent = getDaysUntil(9, 31);
+        
+        // Christmas: Dec 25 (month 11)
+        if (cdChristmas) cdChristmas.textContent = getDaysUntil(11, 25);
+    }
+
+    // Update timer every hour
+    setInterval(updateCountdowns, 3600000);
+    updateCountdowns();
+
 });
