@@ -37,6 +37,10 @@
                     <h1 class="username">𝔂𝔃𝓬𝓪𝓽 <img src="media/joint.png" class="verified-badge-img" alt="Verified">
                     </h1>
                     <p class="typewriter" id="typewriter"></p>
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: -10px; margin-bottom: 15px; padding: 6px 14px; background: rgba(255, 255, 255, 0.05); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); width: fit-content; margin-inline: auto; backdrop-filter: blur(5px); box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                        <img src="https://cdn.discordapp.com/attachments/1360688928377540759/1532559241095807046/Star_of_David-removebg-preview.png?ex=6a6d4a84&is=6a6bf904&hm=dbec98b27c17f4cee31bc59cbaaa95c428d8a719013ffc02f5717440625e8a2c&" alt="Star of David" style="width: 14px; height: 14px; filter: drop-shadow(0 0 3px rgba(255,255,255,0.4));">
+                        <span style="font-size: 0.8rem; font-weight: 500; letter-spacing: 0.5px; color: #d0d0d0; text-transform: uppercase;">Owner of <a href="https://israelservices.xyz" target="_blank" style="color: #ffffff; text-decoration: none; font-weight: 700; transition: all 0.3s ease;" onmouseover="this.style.textShadow='0 0 10px rgba(255,255,255,0.8)'" onmouseout="this.style.textShadow='none'">israelservices.xyz</a></span>
+                    </div>
                     <div class="badges">
                         <span class="badge" title="Badge 1"><img
                                 src="https://tenor.com/view/cat-meme-gif-14922675818058709477.gif"
@@ -74,11 +78,7 @@
 
                     <div class="social-dropdown">
                         <a href="javascript:void(0)" class="social-link" style="--clr: #ffffff;">
-                            <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                                fill="currentColor">
-                                <path
-                                    d="M4.664 24 24 19.336 19.336 0 0 4.664ZM11.01 15.698l-2.705-2.705 2.705-2.705 2.705 2.705Z" />
-                            </svg>
+                            <img src="https://cdn.simpleicons.org/roblox/white" alt="Roblox" style="width: 1.2em; height: 1.2em; filter: drop-shadow(0 0 4px rgba(255,255,255,0.3)); transition: all 0.3s ease;" onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(255,255,255,0.8))'" onmouseout="this.style.filter='drop-shadow(0 0 4px rgba(255,255,255,0.3))'">
                         </a>
                         <div class="dropdown-content">
                             <a href="https://www.roblox.com/users/3505408337/profile" target="_blank">YZ_star69</a>
@@ -106,11 +106,7 @@
                             class="fas fa-envelope"></i></a>
 
                     <a href="https://kick.com/yzcat420" class="social-link" style="--clr: #ffffff;" target="_blank">
-                        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em"
-                            fill="currentColor">
-                            <path
-                                d="M1.385 0h4.153v5.538h2.77v-2.77h2.768V0h6.924v2.769h-2.77v2.769h-2.768v2.77h-2.77v2.768h2.77v2.77H24v5.538h-6.923v-2.769h-2.77v-2.769h-2.768v2.77h-2.77V24H1.385V0Z" />
-                        </svg>
+                        <img src="https://cdn.simpleicons.org/kick/white" alt="Kick" style="width: 1.2em; height: 1.2em; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3)); transition: all 0.3s ease;" onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(255, 255, 255, 0.8))'" onmouseout="this.style.filter='drop-shadow(0 0 4px rgba(255, 255, 255, 0.3))'">
                     </a>
 
                     <a href="https://www.twitch.tv/barkbarkshottytw" class="social-link" style="--clr: #ffffff;"
@@ -193,6 +189,10 @@
                             <div class="time-box"><span id="cd-christmas">00</span><small>Christmas</small></div>
                         </div>
                     </div>
+                    
+                    <button class="custom-btn" id="update-log-btn" style="justify-content: center; font-weight: 600; font-size: 1rem;">
+                        <i class="fas fa-history" style="margin-right: 8px;"></i> Update Log
+                    </button>
                 </div>
             </div>
         </div>
@@ -203,6 +203,24 @@
     <audio id="bg-music" loop>
         <source src="media/bg-music.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- Update Log Modal -->
+    <div id="update-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" id="close-update-modal">&times;</span>
+            <h2 style="margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px;"><i class="fas fa-clipboard-list"></i> Update Log</h2>
+            <div class="log-entry" style="margin-bottom: 15px;">
+                <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">July 31, 2026</h3>
+                <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                    <li>Added ownership badge for israelservices.xyz.</li>
+                    <li>Updated Kick and Roblox logos to better logos.</li>
+                    <li>Audio player now selects a random song when you enter.</li>
+                    <li>Added a secret "Birthday Edition" that activates on July 25th with confetti!</li>
+                    <li>Increased snowfall intensity.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>

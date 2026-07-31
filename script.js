@@ -3,8 +3,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const bioContainer = document.querySelector('.bio-container');
     const bgMusic = document.getElementById('bg-music');
 
+    const now = new Date();
+    const isBirthday = now.getMonth() === 6 && now.getDate() === 25; // Month is 0-indexed, so 6 is July
+
     // Typewriter effect phrases
     const phrases = ["Welcome to yzcat.xyz you chud", "THC", "420"];
+    if (isBirthday) {
+        phrases.unshift("🎉 Happy Birthday yzcat! 🎉");
+    }
     const typewriterElement = document.getElementById('typewriter');
     let phraseIndex = 0;
     let charIndex = 0;
@@ -43,12 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
         particle.classList.add('particle');
 
         // Random properties for natural look
-        const size = Math.random() * 2 + 1;
+        if (isBirthday) {
+            const colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7', '#ffd166', '#06d6a0', '#118ab2'];
+            particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.width = `${Math.random() * 6 + 4}px`;
+            particle.style.height = `${Math.random() * 10 + 8}px`;
+            particle.style.borderRadius = '2px';
+            particle.style.boxShadow = 'none';
+        } else {
+            const size = Math.random() * 2 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+        }
+        
         const left = Math.random() * 100;
         const duration = Math.random() * 15 + 10; // Slow falling
-
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
         particle.style.left = `${left}%`;
         particle.style.top = `-10px`;
         particle.style.animationDuration = `${duration}s`;
@@ -63,12 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function startParticles() {
         // Pre-fill screen so we don't start with 0 snowflakes
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 150; i++) {
             setTimeout(spawnParticle, Math.random() * 8000);
         }
         
         // Continuously spawn new snowflakes
-        setInterval(spawnParticle, 300); // 1 new snowflake every 300ms
+        setInterval(spawnParticle, 80); // 1 new snowflake every 80ms
     }
 
     // Handle initial click to enter
@@ -160,6 +175,9 @@ document.addEventListener('DOMContentLoaded', () => {
             bgMusic.play().catch(e => console.log(e));
         }
     }
+
+    // Initialize with a random track from the playlist
+    loadTrack(Math.floor(Math.random() * playlist.length));
 
     function formatTime(seconds) {
         if (isNaN(seconds)) return "00:00";
@@ -420,5 +438,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update timer every hour
     setInterval(updateCountdowns, 3600000);
     updateCountdowns();
+
+    // Update Log Modal Logic
+    const updateBtn = document.getElementById('update-log-btn');
+    const updateModal = document.getElementById('update-modal');
+    const closeUpdateModal = document.getElementById('close-update-modal');
+
+    if (updateBtn && updateModal && closeUpdateModal) {
+        updateBtn.addEventListener('click', () => {
+            updateModal.classList.add('show');
+        });
+
+        closeUpdateModal.addEventListener('click', () => {
+            updateModal.classList.remove('show');
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === updateModal) {
+                updateModal.classList.remove('show');
+            }
+        });
+    }
 
 });
