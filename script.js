@@ -153,10 +153,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Playlist
     const playlist = [
-        { title: "assumptions", src: "media/bg-music.mp3" },
+        { title: "Assumptions", src: "media/bg-music.mp3" },
         { title: "Lost Soul", src: "media/lost-soul.mp3" }
     ];
     let currentTrackIndex = 0;
+    
+    const trackInfoBtn = document.getElementById('track-info-btn');
+    const playlistDropdown = document.getElementById('playlist-dropdown');
+    const playlistChevron = document.getElementById('playlist-chevron');
+
+    // Populate dropdown
+    playlist.forEach((track, index) => {
+        const item = document.createElement('div');
+        item.classList.add('playlist-item');
+        item.textContent = track.title;
+        item.addEventListener('click', () => {
+            loadTrack(index);
+            if (hasEntered) bgMusic.play();
+        });
+        playlistDropdown.appendChild(item);
+    });
+
+    trackInfoBtn.addEventListener('click', () => {
+        playlistDropdown.classList.toggle('show');
+        if (playlistDropdown.classList.contains('show')) {
+            playlistChevron.style.transform = 'rotate(180deg)';
+        } else {
+            playlistChevron.style.transform = 'rotate(0deg)';
+        }
+    });
 
     function loadTrack(index) {
         if (index < 0) index = playlist.length - 1;
@@ -170,6 +195,16 @@ document.addEventListener('DOMContentLoaded', () => {
         bgMusic.src = track.src;
         songTitleEl.textContent = track.title;
         bgMusic.load();
+        
+        // Update active class in dropdown
+        const items = playlistDropdown.querySelectorAll('.playlist-item');
+        items.forEach((item, i) => {
+            if (i === currentTrackIndex) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
         
         if (wasPlaying) {
             bgMusic.play().catch(e => console.log(e));
@@ -459,5 +494,40 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // UK Time Clock Logic
+    function updateUKTime() {
+        const timeEl = document.getElementById('uk-time');
+        const dateEl = document.getElementById('uk-date');
+        if (!timeEl || !dateEl) return;
+        
+        const now = new Date();
+        const timeOptions = { 
+            timeZone: 'Europe/London', 
+            hour: '2-digit', 
+            minute: '2-digit', 
+            second: '2-digit', 
+            hour12: true 
+        };
+        const timeFormatter = new Intl.DateTimeFormat('en-GB', timeOptions);
+        timeEl.textContent = timeFormatter.format(now);
+
+        // Date formatting: Mon,3,Aug.2026
+        const ukDateStr = now.toLocaleString("en-US", {timeZone: "Europe/London"});
+        const ukDate = new Date(ukDateStr);
+        
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        
+        const dayOfWeek = days[ukDate.getDay()];
+        const dayOfMonth = ukDate.getDate();
+        const monthName = months[ukDate.getMonth()];
+        const year = ukDate.getFullYear();
+        
+        dateEl.textContent = `${dayOfWeek},${dayOfMonth},${monthName}.${year}`;
+    }
+    
+    updateUKTime();
+    setInterval(updateUKTime, 1000);
 
 });
