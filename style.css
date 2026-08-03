@@ -137,7 +137,7 @@ body {
 
 @media (min-width: 769px) {
     .left-column {
-        flex: 0 0 260px; /* Exact width needed for the social icons */
+        flex: 0 0 310px; /* Exact width needed for the social icons */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -293,7 +293,7 @@ body {
     margin-bottom: 2rem;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 260px; /* Fits exactly 6 icons (6 * 38px + 5 * 6px = 258px) */
+    max-width: 310px; /* Fits exactly 7 icons (7 * 38px + 6 * 6px = 302px) */
     margin-left: auto;
     margin-right: auto;
 }
