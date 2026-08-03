@@ -530,4 +530,10 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUKTime();
     setInterval(updateUKTime, 1000);
 
+    // Scrolling Page Title
+    let titleText = "☽˚｡⋆ ⋆｡˚ ☁︎ ˚｡⋆｡˚     "; // Extra spaces for spacing between loops
+    setInterval(() => {
+        titleText = titleText.substring(1) + titleText[0];
+        document.title = titleText;
+    }, 400); // 400ms scroll speed
 });
