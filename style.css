@@ -1002,3 +1002,84 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
 .close-btn:hover {
     color: #fff;
 }
+
+/* Games Played Section */
+.games-played-container {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.games-played-container:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.games-header {
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    background: transparent;
+    transition: all 0.3s ease;
+}
+
+.games-header i:not(.fa-chevron-down) {
+    color: var(--text-primary);
+}
+
+.games-played-container.expanded .games-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.games-played-container.expanded .fa-chevron-down {
+    transform: rotate(180deg);
+}
+
+.games-list {
+    max-height: 0;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    flex-direction: column;
+}
+
+.games-played-container.expanded .games-list {
+    max-height: 200px;
+    opacity: 1;
+    padding: 5px 0;
+}
+
+.game-item {
+    padding: 10px 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    cursor: default;
+}
+
+.game-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    padding-left: 20px;
+}
+
+.game-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
+    display: inline-block;
+}

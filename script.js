@@ -536,4 +536,13 @@ document.addEventListener('DOMContentLoaded', () => {
         titleText = titleText.substring(1) + titleText[0];
         document.title = titleText;
     }, 400); // 400ms scroll speed
+
+    // Games Played Section Toggle
+    const gamesHeader = document.querySelector('.games-header');
+    const gamesContainer = document.querySelector('.games-played-container');
+    if (gamesHeader && gamesContainer) {
+        gamesHeader.addEventListener('click', () => {
+            gamesContainer.classList.toggle('expanded');
+        });
+    }
 });
