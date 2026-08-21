@@ -892,7 +892,194 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
     color: var(--text-secondary);
     font-weight: 400;
     margin-top: 2px;
-}/* Event Countdown */
+}
+
+/* Side-by-side profile link cards (guns.lol / e-z.bio) */
+.profile-links-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    width: 100%;
+}
+
+.profile-link-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 14px 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 12px;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.profile-link-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: scale(1.03);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.profile-link-logo {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.15));
+    transition: filter 0.3s ease;
+}
+
+.profile-link-card:hover .profile-link-logo {
+    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.4));
+}
+
+.profile-link-name {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+}
+
+.profile-links-row.three-col {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.pekora-emoji {
+    font-size: 1.8rem;
+    line-height: 1;
+    filter: none !important;
+}
+
+/* Pekora.zip login modal */
+.pekora-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.pekora-modal-overlay.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.pekora-modal-box {
+    position: relative;
+    background: rgba(18, 18, 18, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 18px;
+    padding: 36px 32px 28px;
+    width: min(380px, 88vw);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    transform: scale(0.93);
+    transition: transform 0.25s ease;
+}
+
+.pekora-modal-overlay.show .pekora-modal-box {
+    transform: scale(1);
+}
+
+.pekora-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1.2rem;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: background 0.2s ease;
+}
+
+.pekora-modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.pekora-modal-icon {
+    font-size: 2.6rem;
+    line-height: 1;
+}
+
+.pekora-modal-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+
+.pekora-modal-msg {
+    font-size: 0.88rem;
+    color: #aaaaaa;
+    text-align: center;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.pekora-modal-msg strong {
+    color: #ffffff;
+}
+
+.pekora-modal-desc {
+    font-size: 0.88rem;
+    color: #cccccc;
+    text-align: center;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.pekora-modal-desc strong {
+    color: #ffffff;
+}
+
+.pekora-modal-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 11px 20px;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    transition: all 0.2s ease;
+    word-break: break-all;
+    text-align: center;
+}
+
+.pekora-modal-btn:hover {
+    background: rgba(255, 255, 255, 0.14);
+    border-color: rgba(255, 255, 255, 0.25);
+    transform: scale(1.02);
+}
+
+
+/* Event Countdown */
 .countdown-card {
     width: 100%;
     background: rgba(20, 20, 20, 0.4);

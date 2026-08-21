@@ -63,6 +63,10 @@
                         <img src="media/guns-icon.png" alt="Guns.lol" class="custom-icon-img">
                     </a>
 
+                    <a href="javascript:void(0)" class="social-link" style="--clr: #ffffff; text-decoration: none;" title="pekora.zip" onclick="showPekoraModal()">
+                        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1em; letter-spacing: -1px; line-height: 1;">K</span>
+                    </a>
+
                     <a href="https://steamcommunity.com/id/YzCat420/" class="social-link" style="--clr: #ffffff;"
                         target="_blank"><i class="fab fa-steam"></i></a>
 
@@ -92,14 +96,11 @@
                         <a href="javascript:void(0)" class="social-link" style="--clr: #ffffff;"><i
                                 class="fas fa-wallet"></i></a>
                         <div class="dropdown-content" style="min-width: 150px;">
-                            <a href="javascript:void(0)" class="copy-wallet"
-                                data-wallet="bc1qlekzw3tseku6t53jth2qqj93uvkygexx8vddha">Bitcoin (BTC)</a>
-                            <a href="javascript:void(0)" class="copy-wallet"
-                                data-wallet="0xf368B2c2926b90c98727919390A8eDE583E0492b">Ethereum (ETH)</a>
-                            <a href="javascript:void(0)" class="copy-wallet"
-                                data-wallet="Ecs8LV8AXYHA84ExnrXqBha5kJKqCucDA36VDguKTjHp">Solana (SOL)</a>
-                            <a href="javascript:void(0)" class="copy-wallet"
-                                data-wallet="LWEZKZCMZ43g2ui9YY3Jsv5beJT7JGamrc">Litecoin (LTC)</a>
+                            <a href="javascript:void(0)" style="opacity: 0.45; cursor: default; pointer-events: none;">Bitcoin (BTC)</a>
+                            <a href="javascript:void(0)" style="opacity: 0.45; cursor: default; pointer-events: none;">Ethereum (ETH)</a>
+                            <a href="javascript:void(0)" style="opacity: 0.45; cursor: default; pointer-events: none;">Solana (SOL)</a>
+                            <a href="javascript:void(0)" style="opacity: 0.45; cursor: default; pointer-events: none;">Litecoin (LTC)</a>
+                            <span style="display: block; font-size: 0.72rem; color: #888; margin-top: 6px; padding: 0 4px;">🔧 ill update these lator</span>
                         </div>
                     </div>
 
@@ -147,6 +148,17 @@
                             </div>
                         </div>
                     </a>
+
+                    <div class="profile-links-row">
+                        <a href="https://guns.lol/yzcat" class="profile-link-card" target="_blank">
+                            <img src="media/guns-logo.png" class="profile-link-logo" alt="Guns.lol">
+                            <span class="profile-link-name">guns.lol</span>
+                        </a>
+                        <a href="https://e-z.bio/yzcat" class="profile-link-card" target="_blank">
+                            <img src="media/ez-logo.ico" class="profile-link-logo" alt="E-Z.bio">
+                            <span class="profile-link-name">e-z.bio</span>
+                        </a>
+                    </div>
 
                     <!-- Live Discord Presence Card -->
                     <div class="discord-card" id="discord-card">
@@ -266,6 +278,14 @@
             <span class="close-btn" id="close-update-modal">&times;</span>
             <h2 style="margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px;"><i class="fas fa-clipboard-list"></i> Update Log</h2>
             <div class="log-entry" style="margin-bottom: 15px;">
+                <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 21, 2026</h3>
+                <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                    <li>Added guns.lol and e-z.bio profile link cards to the right column using official company logos, making it more visible.</li>
+                    <li>Added pekora.zip (Korone) social icon to the socials row.</li>
+                    <li>Temporarily disabled all crypto wallet links — will update lator.</li>
+                </ul>
+            </div>
+            <div class="log-entry" style="margin-bottom: 15px;">
                 <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 18, 2026</h3>
                 <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
                     <li>Added a sleek, clickable "Games I Cheat In As Of Now" dropdown section to the profile card.</li>
@@ -299,7 +319,36 @@
         </div>
     </div>
 
+    <!-- Pekora.zip login toast -->
+    <!-- Pekora.zip login modal -->
+    <div id="pekora-modal" class="pekora-modal-overlay" onclick="closePekoraModal(event)">
+        <div class="pekora-modal-box">
+            <button class="pekora-modal-close" onclick="closePekoraModalBtn()">&times;</button>
+            <div class="pekora-modal-icon"><img src="media/korone.png" alt="Korone" style="max-width: 180px; width: 100%; height: auto; object-fit: contain;"></div>
+            <h3 class="pekora-modal-title">pekora.zip</h3>
+            <p class="pekora-modal-desc">Korone is an <strong>OG project</strong> for Roblox.</p>
+            <p class="pekora-modal-msg">You'll need to be <strong>logged in</strong> to view this profile!</p>
+            <a href="https://www.pekora.zip/users/8363/profile" target="_blank" class="pekora-modal-btn" onclick="closePekoraModalBtn()">
+                <i class="fas fa-external-link-alt"></i>
+                pekora.zip/users/8363/profile
+            </a>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script>
+        function showPekoraModal() {
+            document.getElementById('pekora-modal').classList.add('show');
+        }
+        function closePekoraModalBtn() {
+            document.getElementById('pekora-modal').classList.remove('show');
+        }
+        function closePekoraModal(e) {
+            if (e.target === document.getElementById('pekora-modal')) {
+                document.getElementById('pekora-modal').classList.remove('show');
+            }
+        }
+    </script>
 </body>
 
 </html>
