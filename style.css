@@ -183,6 +183,47 @@ body {
     pointer-events: none;
 }
 
+/* Proud Atheist Badge */
+.atheist-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 14px;
+    padding: 6px 16px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    width: fit-content;
+    margin-inline: auto;
+    backdrop-filter: blur(5px);
+}
+
+.atheist-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    filter: brightness(0) invert(1) drop-shadow(0 0 4px rgba(255,255,255,0.3));
+}
+
+.atheist-text {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #d0d0d0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.atheist-sub {
+    font-size: 0.7rem;
+    color: rgba(180, 180, 180, 0.5);
+    text-align: center;
+    margin-top: -8px;
+    margin-bottom: 10px;
+    font-style: italic;
+    letter-spacing: 0.3px;
+}
+
 .avatar-container {
     position: relative;
     margin-bottom: 1rem;
@@ -482,36 +523,49 @@ body {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 }
 
-/* Snowflake/dust particles animation */
 .particle {
     position: absolute;
-    background: #fff;
-    border-radius: 50%;
     opacity: 0.5;
     animation-name: float;
     animation-timing-function: linear;
     animation-fill-mode: forwards;
-    box-shadow: 0 0 5px #fff;
+    pointer-events: none;
+    user-select: none;
 }
 
 @keyframes float {
     0% {
-        transform: translateY(0) rotate(0deg);
+        transform: translateY(0) translateX(0) rotate(0deg);
         opacity: 0;
     }
-
     10% {
-        opacity: 0.6;
+        opacity: 0.7;
     }
-
     90% {
         opacity: 0.6;
     }
-
     100% {
-        transform: translateY(100vh) rotate(360deg);
+        transform: translateY(100vh) translateX(var(--sway, 0px)) rotate(360deg);
         opacity: 0;
     }
+}
+
+/* Mouse Trail */
+.mouse-trail-dot {
+    position: fixed;
+    color: rgba(255, 255, 255, 0.85);
+    text-shadow: 0 0 6px rgba(200, 230, 255, 0.7);
+    pointer-events: none;
+    z-index: 99998;
+    transform: translate(-50%, -50%);
+    animation: trail-fade 0.7s ease-out forwards;
+    user-select: none;
+    line-height: 1;
+}
+
+@keyframes trail-fade {
+    0%   { opacity: 1;   transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+    100% { opacity: 0;   transform: translate(-50%, -120%) scale(0.3) rotate(45deg); }
 }
 
 /* Audio Player */
@@ -862,11 +916,11 @@ body {
 
 /* Custom Cursor */
 * {
-    cursor: url('media/cursor.png'), auto !important;
+    cursor: url('media/cursor.png') 14 2, auto !important;
 }
 
 a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar-bg, .play-btn-container, .volume-slider, .enter-screen {
-    cursor: url('media/cursor.png'), pointer !important;
+    cursor: url('media/cursor.png') 14 2, pointer !important;
 }
 
 /* YouTube Button Specifics */
@@ -1079,6 +1133,187 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
 }
 
 
+/* Unified countdown block wrapper */
+.countdown-block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(180, 30, 30, 0.4);
+    border-radius: 16px;
+    overflow: hidden;
+    background: transparent;
+    box-shadow: 0 0 28px rgba(180, 30, 30, 0.12);
+}
+
+.countdown-block-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 14px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: rgba(180, 180, 180, 0.6);
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    letter-spacing: 0.5px;
+}
+
+.countdown-block-divider i {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.countdown-events-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 10px;
+    background: rgba(15, 15, 15, 0.35);
+    gap: 4px;
+}
+
+/* 9/11 Remembrance Countdown */
+.nine-eleven-countdown {
+    width: 100%;
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url('media/Towers.jpg') center center / cover no-repeat;
+    border: none;
+    border-radius: 0;
+    padding: 18px 16px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.nine-eleven-countdown::before {
+    content: '';
+    position: absolute;
+    top: -60%;
+    left: -30%;
+    width: 160%;
+    height: 160%;
+    background: radial-gradient(ellipse at 50% 0%, rgba(180, 30, 30, 0.12) 0%, transparent 65%);
+    pointer-events: none;
+}
+
+.nine-eleven-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+.nine-eleven-flag {
+    font-size: 1.3rem;
+    line-height: 1;
+}
+
+.nine-eleven-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+    text-shadow: 0 0 18px rgba(230, 53, 53, 0.5);
+}
+
+.nine-eleven-subtitle {
+    font-size: 0.72rem;
+    color: rgba(200, 200, 200, 0.6);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.nine-eleven-timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+}
+
+.nine-eleven-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(180, 30, 30, 0.3);
+    border-radius: 10px;
+    padding: 10px 8px 7px;
+    flex: 1;
+}
+
+.nine-eleven-box span {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: #e63535;
+    text-shadow: 0 0 14px rgba(230, 53, 53, 0.55);
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+}
+
+.nine-eleven-box small {
+    font-size: 0.58rem;
+    color: rgba(180, 180, 180, 0.7);
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+}
+
+.nine-eleven-sep {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: rgba(230, 53, 53, 0.5);
+    margin-bottom: 14px;
+    align-self: center;
+    line-height: 1;
+}
+
+.nine-eleven-victims {
+    font-size: 0.72rem;
+    color: rgba(200, 200, 200, 0.5);
+    letter-spacing: 1px;
+    text-align: center;
+}
+
+.nine-eleven-uk-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+}
+
+.nine-eleven-uk-note {
+    font-size: 0.7rem;
+    font-style: italic;
+    color: rgba(200, 220, 255, 0.65);
+    letter-spacing: 0.4px;
+    text-align: center;
+}
+
+/* When it IS September 11th */
+.nine-eleven-countdown.is-today {
+    background: linear-gradient(135deg, rgba(5, 5, 5, 0.9) 0%, rgba(10, 10, 20, 0.9) 100%);
+    border-color: rgba(120, 120, 130, 0.5);
+    box-shadow: none;
+}
+
+.nine-eleven-countdown.is-today .nine-eleven-box span {
+    color: #aaaaaa;
+    text-shadow: none;
+}
+
+.nine-eleven-countdown.is-today::before {
+    display: none;
+}
+
 /* Event Countdown */
 .countdown-card {
     width: 100%;
@@ -1145,8 +1380,8 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2px);
     justify-content: center;
     align-items: center;
     opacity: 0;
@@ -1159,16 +1394,49 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
 }
 
 .modal-content {
-    background: rgba(15, 15, 15, 0.85);
+    background: rgba(15, 15, 15, 0.92);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 15px;
-    padding: 30px;
+    padding: 0;
     width: 90%;
     max-width: 500px;
+    max-height: 85vh;
     position: relative;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     transform: translateY(-20px);
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 24px 30px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    flex-shrink: 0;
+}
+
+.modal-body {
+    overflow-y: auto;
+    padding: 20px 30px 24px;
+    flex: 1;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .modal.show .modal-content {

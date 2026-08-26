@@ -43,13 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Create continuous background particles (snowflakes)
+    const snowflakeChars = ['❄', '❅', '❆'];
+
     function spawnParticle() {
         const particlesContainer = document.getElementById('particles');
         const particle = document.createElement('div');
         particle.classList.add('particle');
 
-        // Random properties for natural look
         if (isBirthday) {
+            // Confetti mode
             const colors = ['#ff0a54', '#ff477e', '#ff7096', '#ff85a1', '#fbb1bd', '#f9bec7', '#ffd166', '#06d6a0', '#118ab2'];
             particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             particle.style.width = `${Math.random() * 6 + 4}px`;
@@ -57,34 +59,54 @@ document.addEventListener('DOMContentLoaded', () => {
             particle.style.borderRadius = '2px';
             particle.style.boxShadow = 'none';
         } else {
-            const size = Math.random() * 2 + 1;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
+            // Real snowflake characters
+            const char = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+            particle.textContent = char;
+            const size = Math.random() * 14 + 10; // 10px–24px
+            particle.style.fontSize = `${size}px`;
+            particle.style.width = 'auto';
+            particle.style.height = 'auto';
+            particle.style.background = 'none';
+            particle.style.boxShadow = 'none';
+            particle.style.borderRadius = '0';
+            particle.style.color = `rgba(255,255,255,${Math.random() * 0.5 + 0.3})`;
+            particle.style.textShadow = `0 0 6px rgba(200,230,255,0.6)`;
         }
-        
+
         const left = Math.random() * 100;
-        const duration = Math.random() * 15 + 10; // Slow falling
+        const duration = Math.random() * 12 + 8;
+        const sway = Math.random() * 60 - 30; // drift left/right
         particle.style.left = `${left}%`;
-        particle.style.top = `-10px`;
+        particle.style.top = `-30px`;
         particle.style.animationDuration = `${duration}s`;
+        particle.style.setProperty('--sway', `${sway}px`);
 
         particlesContainer.appendChild(particle);
-
-        // Clean up particle after it finishes falling to prevent lag
-        setTimeout(() => {
-            particle.remove();
-        }, duration * 1000);
+        setTimeout(() => particle.remove(), duration * 1000);
     }
 
     function startParticles() {
-        // Pre-fill screen so we don't start with 0 snowflakes
-        for (let i = 0; i < 150; i++) {
+        for (let i = 0; i < 120; i++) {
             setTimeout(spawnParticle, Math.random() * 8000);
         }
-        
-        // Continuously spawn new snowflakes
-        setInterval(spawnParticle, 80); // 1 new snowflake every 80ms
+        setInterval(spawnParticle, 100);
     }
+
+    // --- Mouse Trail ---
+    function initMouseTrail() {
+        document.addEventListener('mousemove', (e) => {
+            const flake = document.createElement('div');
+            flake.classList.add('mouse-trail-dot');
+            flake.textContent = snowflakeChars[Math.floor(Math.random() * snowflakeChars.length)];
+            flake.style.left = `${e.clientX}px`;
+            flake.style.top = `${e.clientY}px`;
+            flake.style.fontSize = `${Math.random() * 10 + 8}px`;
+            flake.style.opacity = Math.random() * 0.4 + 0.4;
+            document.body.appendChild(flake);
+            setTimeout(() => flake.remove(), 700);
+        });
+    }
+    initMouseTrail();
 
     // Handle initial click to enter
     let hasEntered = false;
@@ -329,11 +351,29 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Click on progress bar to seek
-    progressBarBg.addEventListener('click', (e) => {
+    // Progress bar — drag to seek
+    let isScrubbing = false;
+
+    function scrubTo(e) {
         const rect = progressBarBg.getBoundingClientRect();
-        const pos = (e.clientX - rect.left) / rect.width;
+        const pos = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
         bgMusic.currentTime = pos * bgMusic.duration;
+        progressFill.style.width = `${pos * 100}%`;
+        progressThumb.style.left = `${pos * 100}%`;
+    }
+
+    progressBarBg.addEventListener('mousedown', (e) => {
+        e.preventDefault(); // stop browser image-drag
+        isScrubbing = true;
+        scrubTo(e);
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (isScrubbing) scrubTo(e);
+    });
+
+    document.addEventListener('mouseup', () => {
+        isScrubbing = false;
     });
 
     // Wallet Copy Logic
@@ -454,6 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateCountdowns() {
         const cdNewYears = document.getElementById('cd-newyears');
         const cdJuly4 = document.getElementById('cd-july4');
+        const cd911 = document.getElementById('cd-911');
         const cdHalloween = document.getElementById('cd-halloween');
         const cdChristmas = document.getElementById('cd-christmas');
 
@@ -462,6 +503,9 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // 4th of July: July 4 (month 6)
         if (cdJuly4) cdJuly4.textContent = getDaysUntil(6, 4);
+
+        // 9/11 Kaboom Day: Sept 11 (month 8)
+        if (cd911) cd911.textContent = getDaysUntil(8, 11);
         
         // Halloween: Oct 31 (month 9)
         if (cdHalloween) cdHalloween.textContent = getDaysUntil(9, 31);
@@ -473,6 +517,56 @@ document.addEventListener('DOMContentLoaded', () => {
     // Update timer every hour
     setInterval(updateCountdowns, 3600000);
     updateCountdowns();
+
+    // --- 9/11 Remembrance Live Countdown ---
+    function update911Countdown() {
+        const now = new Date();
+        const card = document.getElementById('nine-eleven-card');
+        const subtitle = document.getElementById('nine-eleven-subtitle');
+        const daysEl = document.getElementById('cd-911-days');
+        const hoursEl = document.getElementById('cd-911-hours');
+        const minsEl = document.getElementById('cd-911-secs') ? document.getElementById('cd-911-mins') : null;
+        const secsEl = document.getElementById('cd-911-secs');
+
+        const is911Day = now.getMonth() === 8 && now.getDate() === 11; // Sept = month 8
+
+        if (is911Day) {
+            // Today IS September 11th — solemn mode
+            if (card) card.classList.add('is-today');
+            if (subtitle) subtitle.textContent = 'September 11, 2001 · 8:46 AM';
+            if (daysEl) daysEl.textContent = '00';
+            if (hoursEl) hoursEl.textContent = '00';
+            const mEl = document.getElementById('cd-911-mins');
+            if (mEl) mEl.textContent = '00';
+            if (secsEl) secsEl.textContent = '00';
+            return;
+        }
+
+        if (card) card.classList.remove('is-today');
+
+        // Next Sept 11
+        let target = new Date(now.getFullYear(), 8, 11); // month 8 = September
+        if (now >= target) {
+            target = new Date(now.getFullYear() + 1, 8, 11);
+        }
+
+        const diff = target - now;
+        const totalSecs = Math.floor(diff / 1000);
+        const days = Math.floor(totalSecs / 86400);
+        const hours = Math.floor((totalSecs % 86400) / 3600);
+        const mins = Math.floor((totalSecs % 3600) / 60);
+        const secs = totalSecs % 60;
+
+        const pad = n => String(n).padStart(2, '0');
+        if (daysEl) daysEl.textContent = pad(days);
+        if (hoursEl) hoursEl.textContent = pad(hours);
+        const mEl = document.getElementById('cd-911-mins');
+        if (mEl) mEl.textContent = pad(mins);
+        if (secsEl) secsEl.textContent = pad(secs);
+    }
+
+    update911Countdown();
+    setInterval(update911Countdown, 1000);
 
     // Update Log Modal Logic
     const updateBtn = document.getElementById('update-log-btn');

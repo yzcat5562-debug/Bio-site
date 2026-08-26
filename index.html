@@ -29,6 +29,12 @@
     <div class="bio-container">
         <div class="bio-card">
             <div class="left-column">
+                <div class="atheist-badge">
+                    <img src="media/atheist.png" alt="Atheist Symbol" class="atheist-icon">
+                    <span class="atheist-text">Proud Atheist</span>
+                </div>
+                <div class="atheist-sub">believe in science</div>
+
                 <div class="avatar-container">
                     <!-- Replace with your own avatar URL -->
                     <img src="media/profile.jpg" alt="Avatar" class="avatar" id="avatar-img">
@@ -63,8 +69,8 @@
                         <img src="media/guns-icon.png" alt="Guns.lol" class="custom-icon-img">
                     </a>
 
-                    <a href="javascript:void(0)" class="social-link" style="--clr: #ffffff; text-decoration: none;" title="pekora.zip" onclick="showPekoraModal()">
-                        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1em; letter-spacing: -1px; line-height: 1;">K</span>
+                    <a href="https://medal.tv/u/YzCat?invite=ur-MSxJN24sNzIyODI0NDYy" class="social-link" style="--clr: #ffffff;" target="_blank" title="Medal.tv">
+                        <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1em; letter-spacing: -1px; line-height: 1;">M</span>
                     </a>
 
                     <a href="https://steamcommunity.com/id/YzCat420/" class="social-link" style="--clr: #ffffff;"
@@ -121,7 +127,7 @@
                         <img src="https://cdn.simpleicons.org/onlyfans/white" alt="OnlyFans" style="width: 1.2em; height: 1.2em; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3)); transition: all 0.3s ease;" onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(255, 255, 255, 0.8))'" onmouseout="this.style.filter='drop-shadow(0 0 4px rgba(255, 255, 255, 0.3))'">
                     </a>
 
-                    <a href="https://vacban.wtf/members/118645/" class="social-link" style="--clr: #ffffff; text-decoration: none;" title="VacBan" target="_blank">
+                    <a href="javascript:void(0)" class="social-link" style="--clr: #ffffff; text-decoration: none;" title="VacBan" onclick="showVacbanModal()">
                         <span style="font-family: 'Space Grotesk', sans-serif; font-weight: 800; font-size: 1.1em; letter-spacing: -1px; line-height: 1;">VB</span>
                     </a>
 
@@ -135,6 +141,45 @@
                     <div class="current-date" id="uk-date">Loading date...</div>
                     <div class="current-time" id="uk-time">Loading time...</div>
                 </div>
+
+                <div class="games-played-container" style="margin-top: 16px;">
+                    <div class="games-header">
+                        Games I Cheat In As Of Now <i class="fas fa-chevron-down" style="font-size: 0.7rem; transition: transform 0.3s;"></i>
+                    </div>
+                    <div class="games-list">
+                        <div class="game-item" style="justify-content: space-between; padding-right: 15px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <img src="https://cdn.simpleicons.org/epicgames/white" alt="Fortnite" class="game-icon"> Fortnite
+                            </div>
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <a href="https://www.youtube.com/watch?v=1noPDmWMi2w&t=121s" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="CheatLoverz V2 Best FN Internal">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a href="https://www.youtube.com/watch?v=TaJERXPFc7Y&t=2s" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Disconnect.wtf40 Kill Game ReloadFortnite Raging">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="game-item" style="justify-content: space-between; padding-right: 15px;">
+                            <div style="display: flex; align-items: center; gap: 12px;">
+                                <img src="https://cdn.simpleicons.org/roblox/white" alt="Roblox" class="game-icon"> Roblox
+                            </div>
+                            <div style="display: flex; gap: 12px; align-items: center;">
+                                <a href="https://www.youtube.com/watch?v=BBmFbGPbH5M" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Potassium | 2026 Pc web executor *INSANE*">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                                <a href="https://www.youtube.com/watch?v=6NJyybw5CrE" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Stalkie | Troll Script Tutorial/Showcase *FREE*">
+                                    <i class="fab fa-youtube"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button class="custom-btn" id="update-log-btn" style="justify-content: center; font-weight: 600; font-size: 1rem; margin-top: 16px;">
+                    <i class="fas fa-history" style="margin-right: 8px;"></i> Update Log
+                </button>
             </div>
 
             <div class="right-column">
@@ -211,56 +256,59 @@
                         </div>
                     </div>
 
-                    <!-- Upcoming Events Countdown -->
-                    <div class="countdown-card">
-                        <div class="countdown-header">
+                    <!-- Kaboom Day + Events: unified countdown block -->
+                    <div class="countdown-block">
+
+                        <!-- 9/11 Remembrance Countdown -->
+                        <div class="nine-eleven-countdown" id="nine-eleven-card">
+                            <div class="nine-eleven-header">
+                                <span class="nine-eleven-flag">💥</span>
+                                <span class="nine-eleven-title">Kaboom Day</span>
+                                <span class="nine-eleven-flag">💥</span>
+                            </div>
+                            <div class="nine-eleven-subtitle" id="nine-eleven-subtitle">September 11, 2001 · 8:46 AM</div>
+                            <div class="nine-eleven-timer">
+                                <div class="nine-eleven-box">
+                                    <span id="cd-911-days">00</span>
+                                    <small>Days</small>
+                                </div>
+                                <div class="nine-eleven-sep">:</div>
+                                <div class="nine-eleven-box">
+                                    <span id="cd-911-hours">00</span>
+                                    <small>Hours</small>
+                                </div>
+                                <div class="nine-eleven-sep">:</div>
+                                <div class="nine-eleven-box">
+                                    <span id="cd-911-mins">00</span>
+                                    <small>Mins</small>
+                                </div>
+                                <div class="nine-eleven-sep">:</div>
+                                <div class="nine-eleven-box">
+                                    <span id="cd-911-secs">00</span>
+                                    <small>Secs</small>
+                                </div>
+                            </div>
+                            <div class="nine-eleven-uk-flex">
+                                <img src="media/UnionJack.jpg" alt="UK Flag" style="width: 18px; height: 12px; border-radius: 2px; object-fit: cover;">
+                                <span class="nine-eleven-uk-note">In the UK we still got our towers</span>
+                                <img src="media/UnionJack.jpg" alt="UK Flag" style="width: 18px; height: 12px; border-radius: 2px; object-fit: cover;">
+                            </div>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="countdown-block-divider">
                             <i class="fas fa-calendar-alt"></i> Upcoming Events (Days Left)
                         </div>
-                        <div class="countdown-timer">
+
+                        <!-- Regular Events Countdown -->
+                        <div class="countdown-events-row">
                             <div class="time-box"><span id="cd-newyears">00</span><small>New Year's</small></div>
                             <div class="time-box"><span id="cd-july4">00</span><small>4th July</small></div>
                             <div class="time-box"><span id="cd-halloween">00</span><small>Halloween</small></div>
                             <div class="time-box"><span id="cd-christmas">00</span><small>Christmas</small></div>
                         </div>
+
                     </div>
-                    <div class="games-played-container">
-                        <div class="games-header">
-                            Games I Cheat In As Of Now <i class="fas fa-chevron-down" style="font-size: 0.7rem; transition: transform 0.3s;"></i>
-                        </div>
-                        <div class="games-list">
-                            <div class="game-item" style="justify-content: space-between; padding-right: 15px;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <img src="https://cdn.simpleicons.org/epicgames/white" alt="Fortnite" class="game-icon"> Fortnite
-                                </div>
-                                <div style="display: flex; gap: 12px; align-items: center;">
-                                    <a href="https://www.youtube.com/watch?v=1noPDmWMi2w&t=121s" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="CheatLoverz V2 Best FN Internal">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                    <a href="https://www.youtube.com/watch?v=TaJERXPFc7Y&t=2s" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Disconnect.wtf40 Kill Game ReloadFortnite Raging">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="game-item" style="justify-content: space-between; padding-right: 15px;">
-                                <div style="display: flex; align-items: center; gap: 12px;">
-                                    <img src="https://cdn.simpleicons.org/roblox/white" alt="Roblox" class="game-icon"> Roblox
-                                </div>
-                                <div style="display: flex; gap: 12px; align-items: center;">
-                                    <a href="https://www.youtube.com/watch?v=BBmFbGPbH5M" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Potassium | 2026 Pc web executor *INSANE*">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                    <a href="https://www.youtube.com/watch?v=6NJyybw5CrE" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Stalkie | Troll Script Tutorial/Showcase *FREE*">
-                                        <i class="fab fa-youtube"></i>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="game-item"><i class="fas fa-crosshairs game-icon" style="text-align: center; font-size: 16px;"></i> Cod Series</div>
-                        </div>
-                    </div>
-                    
-                    <button class="custom-btn" id="update-log-btn" style="justify-content: center; font-weight: 600; font-size: 1rem;">
-                        <i class="fas fa-history" style="margin-right: 8px;"></i> Update Log
-                    </button>
                 </div>
             </div>
         </div>
@@ -275,46 +323,61 @@
     <!-- Update Log Modal -->
     <div id="update-modal" class="modal">
         <div class="modal-content">
-            <span class="close-btn" id="close-update-modal">&times;</span>
-            <h2 style="margin-bottom: 20px; font-weight: 700; display: flex; align-items: center; gap: 10px;"><i class="fas fa-clipboard-list"></i> Update Log</h2>
-            <div class="log-entry" style="margin-bottom: 15px;">
-                <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 21, 2026</h3>
-                <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
-                    <li>Added guns.lol and e-z.bio profile link cards to the right column using official company logos, making it more visible.</li>
-                    <li>Added pekora.zip (Korone) social icon to the socials row.</li>
-                    <li>Temporarily disabled all crypto wallet links — will update lator.</li>
-                </ul>
+            <div class="modal-header">
+                <span class="close-btn" id="close-update-modal">&times;</span>
+                <h2 style="font-weight: 700; display: flex; align-items: center; gap: 10px;"><i class="fas fa-clipboard-list"></i> Update Log</h2>
             </div>
-            <div class="log-entry" style="margin-bottom: 15px;">
-                <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 18, 2026</h3>
-                <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
-                    <li>Added a sleek, clickable "Games I Cheat In As Of Now" dropdown section to the profile card.</li>
-                    <li>Added YouTube yzcats video showcase links for Fortnite and Roblox cheats.</li>
-                </ul>
-            </div>
-            <div class="log-entry" style="margin-bottom: 15px;">
-                <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 3, 2026</h3>
-                <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
-                    <li>Fixed and updated the logo for israelservices.xyz ownership badge.</li>
-                    <li>Added VacBan profile link.</li>
-                    <li>Added ContainsThc logo as the site favicon.</li>
-                    <li>Added a live UK time, date, and location widget with Union Jack flag.</li>
-                    <li>Added a playlist dropdown to the music player.</li>
-                    <li>Added a Spotify button that links directly to my playlist.</li>
-                    <li>Changed page title to an aesthetic scrolling animation.</li>
-                    <li>Fixed mobile layout issues and improved the interactive touch tilt effect for mobile devices. (Still really buggy)</li>
-                </ul>
-            </div>
-            <div class="log-entry" style="margin-bottom: 15px;">
-                <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">July 31, 2026</h3>
-                <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
-                    <li>Added ownership badge for israelservices.xyz.</li>
-                    <li>Updated Kick and Roblox logos to better logos.</li>
-                    <li>Audio player now selects a random song when you enter.</li>
-                    <li>Added a secret "Birthday Edition" that activates on July 25th with confetti!</li>
-                    <li>Increased snowfall intensity.</li>
-                    <li>Added OnlyFans to social links.</li>
-                </ul>
+            <div class="modal-body">
+                <div class="log-entry" style="margin-bottom: 15px;">
+                    <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 26, 2026</h3>
+                    <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Added a big Kaboom Day countdown counter etc.</li>
+                        <li>Formatted update logs to make it more viewable.</li>
+                        <li>Moved "Games I Cheat In As Of Now" dropdown and Update Log button to the left column, below the time widget.</li>
+                        <li>Added Proud Atheist badge with "believe in science" subtitle above the profile.</li>
+                        <li>Removed pekora.zip (Korone) social link (shutdown due to ddosers, might come back idk) — replaced with Medal.tv.</li>
+                        <li>Fixed music player progress bar — you can now click and drag to seek instead of just clicking.</li>
+                    </ul>
+                </div>
+                <div class="log-entry" style="margin-bottom: 15px;">
+                    <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 21, 2026</h3>
+                    <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Added guns.lol and e-z.bio profile link cards to the right column using official company logos, making it more visible.</li>
+                        <li>Added pekora.zip (Korone) social icon to the socials row.</li>
+                        <li>Temporarily disabled all crypto wallet links — will update lator.</li>
+                    </ul>
+                </div>
+                <div class="log-entry" style="margin-bottom: 15px;">
+                    <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 18, 2026</h3>
+                    <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Added a sleek, clickable "Games I Cheat In As Of Now" dropdown section to the profile card.</li>
+                        <li>Added YouTube yzcats video showcase links for Fortnite and Roblox cheats.</li>
+                    </ul>
+                </div>
+                <div class="log-entry" style="margin-bottom: 15px;">
+                    <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 3, 2026</h3>
+                    <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Fixed and updated the logo for israelservices.xyz ownership badge.</li>
+                        <li>Added VacBan profile link.</li>
+                        <li>Added ContainsThc logo as the site favicon.</li>
+                        <li>Added a live UK time, date, and location widget with Union Jack flag.</li>
+                        <li>Added a playlist dropdown to the music player.</li>
+                        <li>Added a Spotify button that links directly to my playlist.</li>
+                        <li>Changed page title to an aesthetic scrolling animation.</li>
+                        <li>Fixed mobile layout issues and improved the interactive touch tilt effect for mobile devices. (Still really buggy)</li>
+                    </ul>
+                </div>
+                <div class="log-entry" style="margin-bottom: 15px;">
+                    <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">July 31, 2026</h3>
+                    <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Added ownership badge for israelservices.xyz.</li>
+                        <li>Updated Kick and Roblox logos to better logos.</li>
+                        <li>Audio player now selects a random song when you enter.</li>
+                        <li>Added a secret "Birthday Edition" that activates on July 25th with confetti!</li>
+                        <li>Increased snowfall intensity.</li>
+                        <li>Added OnlyFans to social links.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -335,6 +398,21 @@
         </div>
     </div>
 
+    <!-- VacBan login modal -->
+    <div id="vacban-modal" class="pekora-modal-overlay" onclick="closeVacbanModal(event)">
+        <div class="pekora-modal-box">
+            <button class="pekora-modal-close" onclick="closeVacbanModalBtn()">&times;</button>
+            <div class="pekora-modal-icon" style="font-size: 2.8rem; line-height: 1;">🚫</div>
+            <h3 class="pekora-modal-title">vacban.wtf</h3>
+            <p class="pekora-modal-desc">Forum/shop community mainly for <strong>CS2</strong>. You do need an <strong>invite code</strong> to join.</p>
+            <p class="pekora-modal-msg">You'll need to be <strong>logged in</strong> to view this profile!</p>
+            <a href="https://vacban.wtf/members/118645/" target="_blank" class="pekora-modal-btn" onclick="closeVacbanModalBtn()">
+                <i class="fas fa-external-link-alt"></i>
+                vacban.wtf/members/118645
+            </a>
+        </div>
+    </div>
+
     <script src="script.js"></script>
     <script>
         function showPekoraModal() {
@@ -346,6 +424,17 @@
         function closePekoraModal(e) {
             if (e.target === document.getElementById('pekora-modal')) {
                 document.getElementById('pekora-modal').classList.remove('show');
+            }
+        }
+        function showVacbanModal() {
+            document.getElementById('vacban-modal').classList.add('show');
+        }
+        function closeVacbanModalBtn() {
+            document.getElementById('vacban-modal').classList.remove('show');
+        }
+        function closeVacbanModal(e) {
+            if (e.target === document.getElementById('vacban-modal')) {
+                document.getElementById('vacban-modal').classList.remove('show');
             }
         }
     </script>
