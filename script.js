@@ -272,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Play/Pause button click
     playPauseBtn.addEventListener('click', () => {
+        if (hasExploded) return;
         if (bgMusic.paused) {
             bgMusic.play();
         } else {
@@ -281,6 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Next/Prev track logic
     bgMusic.addEventListener('ended', () => {
+        if (hasExploded) return;
         loadTrack(currentTrackIndex + 1);
         bgMusic.play();
     });
@@ -298,6 +300,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Keyboard controls (Space, Left/Right Arrows)
     document.addEventListener('keydown', (e) => {
         if (!hasEntered) return;
+        if (hasExploded) return; // Disable music controls after easter egg fires
         
         if (e.code === 'Space') {
             e.preventDefault(); // Prevent page scrolling
@@ -733,6 +736,7 @@ document.addEventListener('wheel', function(event) {
 const secretCode = ['y', 'z', 'c', 'a', 't'];
 let secretIndex = 0;
 let hasExploded = false;
+let chaosTrack = null;
 
 document.addEventListener('keydown', (e) => {
     if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'textarea') return;
@@ -755,6 +759,17 @@ document.addEventListener('keydown', (e) => {
 });
 
 function triggerEasterEggSecond() {
+    // Stop the spinning monkeys and background music
+    if (chaosTrack) { chaosTrack.pause(); chaosTrack = null; }
+    const bgMusic = document.getElementById('bg-music');
+    if (bgMusic) bgMusic.pause();
+
+    // Play alarm
+    const alarm = new Audio('media/alarm.mp3');
+    alarm.loop = true;
+    alarm.volume = 0.25;
+    alarm.play().catch(() => {});
+
     const msg = document.createElement('div');
     msg.innerHTML = `
         <div style="font-size: clamp(0.7rem, 1.2vw, 0.9rem); color: #ff0000; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 18px; opacity: 0.8;">⚠ &nbsp; CRITICAL FAILURE &nbsp; ⚠</div>
@@ -783,22 +798,48 @@ function triggerEasterEggSecond() {
     });
     document.body.appendChild(msg);
 
-    let count = 10;
     const cdEl = msg.querySelector('#egg-countdown');
-    const interval = setInterval(() => {
-        count--;
-        if (count > 0) {
-            cdEl.textContent = count;
-            // Flash red on last 3
-            if (count <= 3) cdEl.style.color = '#ff0000';
+    let count = 69; // work in tenths internally (69 = 6.9)
+
+    function getDelay(c) {
+        // c is in tenths (69 down to 0)
+        if (c > 10) {
+            // 6.9 down to 1.1: starts fast (~60ms), slows gently to ~130ms at 1.1
+            const t = 1 - ((c - 10) / 59); // 0 at top, 1 at 1.1
+            return Math.round(60 + t * 70);
         } else {
-            clearInterval(interval);
-            window.location.href = 'https://guns.lol/yzcat';
+            // 1.0 down to 0.0: 10 ticks over 2000ms = 200ms each
+            return 200;
         }
-    }, 1000);
+    }
+
+    function tick() {
+        const display = (count / 10).toFixed(1);
+        cdEl.textContent = display;
+        if (count <= 10) cdEl.style.color = '#ff0000';
+
+        if (count <= 0) {
+            alarm.pause();
+            window.location.href = 'https://guns.lol/yzcat';
+            return;
+        }
+
+        count--;
+        setTimeout(tick, getDelay(count));
+    }
+
+    cdEl.textContent = '6.9';
+    setTimeout(tick, getDelay(count));
 }
 
 function triggerEasterEgg() {
+    // Kill bg music, play the chaos track
+    const bgMusic = document.getElementById('bg-music');
+    if (bgMusic) bgMusic.pause();
+    chaosTrack = new Audio('media/Monkeys Spinning Monkeys.mp3');
+    chaosTrack.volume = 0.4;
+    chaosTrack.play().catch(() => {});
+
     // Show outlined "GRAVITY.EXE" text
     const overlay = document.createElement('div');
     overlay.textContent = "GRAVITY.EXE HAS STOPPED WORKING";
@@ -901,9 +942,13 @@ function triggerEasterEgg() {
         });
     });
 
-    // Hide the panel now that all clones are stamped on screen — looks like it exploded apart
+    // Hide the panel instantly — override any CSS transitions first so it snaps off immediately
     const bioContainer = document.querySelector('.bio-container');
-    if (bioContainer) bioContainer.style.visibility = 'hidden';
+    if (bioContainer) {
+        bioContainer.style.transition = 'none';
+        bioContainer.style.opacity = '0';
+        bioContainer.style.visibility = 'hidden';
+    }
 
     // Hue shift the background
     document.body.style.transition = 'filter 4s ease';
