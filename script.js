@@ -624,6 +624,8 @@ document.addEventListener('DOMContentLoaded', () => {
     updateUKTime();
     setInterval(updateUKTime, 1000);
 
+
+
     // Scrolling Page Title
     let titleText = "☽˚｡⋆ ⋆｡˚ ☁︎ ˚｡⋆｡˚     "; // Extra spaces for spacing between loops
     setInterval(() => {
@@ -640,3 +642,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Site Uptime — runs outside DOMContentLoaded so it can't be blocked
+(function() {
+    function updateUptime() {
+        const uptimeEl = document.getElementById('site-uptime');
+        if (!uptimeEl) return;
+
+        const startDate = new Date('2026-05-21T20:23:04.864Z');
+        const diff = Date.now() - startDate.getTime();
+
+        if (diff < 0) { uptimeEl.textContent = '0d 0h 0m 0s'; return; }
+
+        const s = Math.floor(diff / 1000);
+        const d = Math.floor(s / 86400);
+        const h = Math.floor((s % 86400) / 3600);
+        const m = Math.floor((s % 3600) / 60);
+        const sec = s % 60;
+
+        uptimeEl.textContent = `${d}d ${h}h ${m}m ${sec}s`;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateUptime();
+        setInterval(updateUptime, 1000);
+    });
+})();
