@@ -403,45 +403,76 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Discord Presence (Lanyard API) ---
-    // IMPORTANT: You must join the Lanyard Discord server for this to work: discord.gg/lanyard
-    const discordId = '1090716729996488725'; // Your Discord User ID
-    
-    async function fetchDiscordStatus() {
-        try {
-            const res = await fetch(`https://api.lanyard.rest/v1/users/${discordId}`);
-            const data = await res.json();
-            
-            if (data.success) {
-                const d = data.data;
-                const statusDot = document.getElementById('discord-status-dot');
-                const pfp = document.getElementById('discord-pfp');
-                const username = document.getElementById('discord-username');
-                const idEl = document.getElementById('discord-id');
-                
-                // Update status color
-                statusDot.className = 'discord-status'; // reset classes
-                statusDot.classList.add(`status-${d.discord_status}`); // online, idle, dnd, offline
-                
-                // Update username and ID
-                username.textContent = d.discord_user.username;
-                idEl.textContent = `ID: ${d.discord_user.id}`;
-                
-                // Update PFP
-                if (d.discord_user.avatar) {
-                    pfp.src = `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=128`;
-                }
-            }
-        } catch (e) {
-            console.log("Could not fetch Discord status");
+    // --- Discord Presence + Spotify (Lanyard WebSocket) ---
+    const discordId = '1090716729996488725';
+
+    function updateSpotifyCard(spotify) {
+        const card = document.getElementById('spotify-card');
+        if (!card) return;
+        if (spotify) {
+            document.getElementById('spotify-song').textContent = spotify.song;
+            document.getElementById('spotify-artist').textContent = spotify.artist.replace(/;/g, ',');
+            document.getElementById('spotify-album-art').src = spotify.album_art_url;
+
+            const elapsed = Date.now() - spotify.timestamps.start;
+            const total = spotify.timestamps.end - spotify.timestamps.start;
+            const pct = Math.min((elapsed / total) * 100, 100);
+            document.getElementById('spotify-progress').style.width = `${pct}%`;
+
+            card.style.display = 'flex';
+        } else {
+            card.style.display = 'none';
         }
     }
-    
-    // Fetch initially and then every 10 seconds if ID is set
-    if (discordId !== 'REPLACE_WITH_YOUR_DISCORD_ID') {
-        fetchDiscordStatus();
-        setInterval(fetchDiscordStatus, 10000);
+
+    function updateDiscordCard(d) {
+        const statusDot = document.getElementById('discord-status-dot');
+        const pfp = document.getElementById('discord-pfp');
+        const username = document.getElementById('discord-username');
+        const idEl = document.getElementById('discord-id');
+        if (!statusDot) return;
+
+        statusDot.className = 'discord-status';
+        statusDot.classList.add(`status-${d.discord_status}`);
+        username.textContent = d.discord_user.username;
+        idEl.textContent = `ID: ${d.discord_user.id}`;
+        if (d.discord_user.avatar) {
+            pfp.src = `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=128`;
+        }
+        updateSpotifyCard(d.spotify);
     }
+
+    function connectLanyard() {
+        const ws = new WebSocket('wss://api.lanyard.rest/socket');
+        let heartbeatInterval;
+
+        ws.onopen = () => {
+            ws.send(JSON.stringify({ op: 2, d: { subscribe_to_id: discordId } }));
+        };
+
+        ws.onmessage = (event) => {
+            const msg = JSON.parse(event.data);
+            if (msg.op === 1) {
+                // HELLO — start heartbeat
+                heartbeatInterval = setInterval(() => {
+                    if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ op: 3 }));
+                }, msg.d.heartbeat_interval);
+            } else if (msg.op === 0) {
+                // EVENT — presence update
+                updateDiscordCard(msg.d);
+            }
+        };
+
+        ws.onclose = () => {
+            clearInterval(heartbeatInterval);
+            // Reconnect after 5s if connection drops
+            setTimeout(connectLanyard, 5000);
+        };
+
+        ws.onerror = () => ws.close();
+    }
+
+    connectLanyard();
 
     // --- YouTube Real-Time Stats ---
     // IMPORTANT: You need a YouTube Data API v3 Key and your Channel ID for this to work.
