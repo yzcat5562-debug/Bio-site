@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const playlist = [
         { title: "Assumptions", src: "media/bg-music.mp3" },
         { title: "Lost Soul", src: "media/lost-soul.mp3" },
-        { title: "Bam Bam", src: "media/bam bam.mp3" }
+        { title: "Bam Bam", src: "media/bam-bam.mp3" }
     ];
     let currentTrackIndex = 0;
     
@@ -637,6 +637,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     update420Countdown();
     setInterval(update420Countdown, 1000);
+
+
 
     // Update Log Modal Logic
     const updateBtn = document.getElementById('update-log-btn');
