@@ -728,3 +728,205 @@ document.addEventListener('wheel', function(event) {
         event.preventDefault();
     }
 }, { passive: false });
+
+// --- Secret Easter Egg ---
+const secretCode = ['y', 'z', 'c', 'a', 't'];
+let secretIndex = 0;
+let hasExploded = false;
+
+document.addEventListener('keydown', (e) => {
+    if (e.target.tagName.toLowerCase() === 'input' || e.target.tagName.toLowerCase() === 'textarea') return;
+    
+    if (e.key.toLowerCase() === secretCode[secretIndex]) {
+        secretIndex++;
+        if (secretIndex === secretCode.length) {
+            if (!hasExploded) {
+                hasExploded = true;
+                triggerEasterEgg();
+            } else {
+                triggerEasterEggSecond();
+            }
+            secretIndex = 0;
+        }
+    } else {
+        secretIndex = 0;
+        if (e.key.toLowerCase() === secretCode[0]) secretIndex = 1;
+    }
+});
+
+function triggerEasterEggSecond() {
+    const msg = document.createElement('div');
+    msg.innerHTML = `
+        <div style="font-size: clamp(0.7rem, 1.2vw, 0.9rem); color: #ff0000; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 18px; opacity: 0.8;">⚠ &nbsp; CRITICAL FAILURE &nbsp; ⚠</div>
+        <div style="font-size: clamp(1.2rem, 3vw, 2.8rem); font-weight: 900; color: transparent; -webkit-text-stroke: 2px #ffffff; letter-spacing: 5px; margin-bottom: 14px;">YOU ALREADY BROKE IT.</div>
+        <div style="width: 60px; height: 1px; background: rgba(255,255,255,0.2); margin: 0 auto 18px;"></div>
+        <div style="font-size: clamp(0.8rem, 1.4vw, 1rem); color: #888; line-height: 1.8; margin-bottom: 24px;">
+            there is no site left to destroy.<br>
+            our engineers have been notified.<br>
+            <span style="color: #555;">( they are not coming. )</span>
+        </div>
+        <div style="font-size: clamp(0.7rem, 1.2vw, 0.85rem); color: #666; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase;">evacuating to a safer location in</div>
+        <div id="egg-countdown" style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.3);">10</div>
+    `;
+    Object.assign(msg.style, {
+        position: 'fixed', top: '50%', left: '50%',
+        transform: 'translate(-50%, -50%)',
+        textAlign: 'center', zIndex: '999999',
+        pointerEvents: 'none', fontFamily: "'Space Grotesk', sans-serif",
+        lineHeight: '1.4',
+        padding: '40px',
+        background: 'rgba(0,0,0,0.85)',
+        border: '1px solid rgba(255,0,0,0.2)',
+        borderRadius: '12px',
+        backdropFilter: 'blur(10px)',
+        minWidth: '340px'
+    });
+    document.body.appendChild(msg);
+
+    let count = 10;
+    const cdEl = msg.querySelector('#egg-countdown');
+    const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+            cdEl.textContent = count;
+            // Flash red on last 3
+            if (count <= 3) cdEl.style.color = '#ff0000';
+        } else {
+            clearInterval(interval);
+            window.location.href = 'https://guns.lol/yzcat';
+        }
+    }, 1000);
+}
+
+function triggerEasterEgg() {
+    // Show outlined "GRAVITY.EXE" text
+    const overlay = document.createElement('div');
+    overlay.textContent = "GRAVITY.EXE HAS STOPPED WORKING";
+    Object.assign(overlay.style, {
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        fontSize: 'clamp(1.2rem, 3.5vw, 3.5rem)',
+        fontWeight: '900',
+        fontFamily: "'Space Grotesk', sans-serif",
+        color: 'transparent',
+        webkitTextStroke: '2px #ff0000',
+        zIndex: '999999',
+        pointerEvents: 'none',
+        textShadow: '0 0 30px rgba(255,0,0,0.6)',
+        whiteSpace: 'nowrap',
+        letterSpacing: '4px'
+    });
+    document.body.appendChild(overlay);
+    setTimeout(() => {
+        overlay.style.transition = 'opacity 1s ease';
+        overlay.style.opacity = '0';
+        setTimeout(() => overlay.remove(), 1000);
+    }, 2500);
+
+    // Grab every visible leaf-level element across the entire page
+    const everything = document.querySelectorAll('body *');
+    const toExplode = [];
+
+    everything.forEach(el => {
+        // Only take elements that have no visible children themselves (leaf nodes visually)
+        // OR specific containers we want to treat as a unit
+        const tag = el.tagName.toLowerCase();
+        const rect = el.getBoundingClientRect();
+
+        // Skip invisible, off-screen, or massive wrapper elements
+        if (rect.width === 0 || rect.height === 0) return;
+        if (rect.width > window.innerWidth * 0.7) return;
+        if (rect.height > window.innerHeight * 0.7) return;
+        if (el.id === 'particles') return;
+        if (el.classList.contains('modal')) return;
+        if (el.classList.contains('background-overlay')) return;
+        if (el.classList.contains('background-video')) return;
+
+        // Only grab specific element types so we don't stack-transform parents + children
+        const allowed = ['img', 'a', 'button', 'h1', 'h2', 'h3', 'p', 'span', 'i', 'li', 'input', 'small', 'div'];
+        if (!allowed.includes(tag)) return;
+
+        // For divs, only grab specific small ones (avoid large layout containers)
+        if (tag === 'div' && (rect.width > 400 || rect.height > 200)) return;
+
+        toExplode.push({ el, rect });
+    });
+
+    const screenCX = window.innerWidth / 2;
+    const screenCY = window.innerHeight / 2;
+    const physicsItems = [];
+
+    // Snapshot all clones first, THEN hide the panel so positions are captured correctly
+    toExplode.forEach(({ el, rect }) => {
+        // Create a clone fixed exactly where the element visually sits
+        const clone = el.cloneNode(true);
+        Object.assign(clone.style, {
+            position: 'fixed',
+            left: rect.left + 'px',
+            top: rect.top + 'px',
+            width: rect.width + 'px',
+            height: rect.height + 'px',
+            margin: '0',
+            zIndex: String(Math.floor(Math.random() * 200) + 100),
+            pointerEvents: 'none',
+            transition: 'none',
+            transform: 'none',
+            boxSizing: 'border-box'
+        });
+        document.body.appendChild(clone);
+
+        // Hide original
+        el.style.visibility = 'hidden';
+
+        // Explosion direction: away from center, with randomness
+        let dx = (rect.left + rect.width / 2) - screenCX;
+        let dy = (rect.top + rect.height / 2) - screenCY;
+        if (Math.abs(dx) < 5) dx = (Math.random() - 0.5) * 20;
+        if (Math.abs(dy) < 5) dy = (Math.random() - 0.5) * 20;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const speed = Math.random() * 18 + 12;
+
+        physicsItems.push({
+            clone,
+            x: rect.left,
+            y: rect.top,
+            vx: (dx / dist) * speed + (Math.random() - 0.5) * 8,
+            vy: (dy / dist) * speed + (Math.random() - 0.5) * 8,
+            angle: 0,
+            va: (Math.random() - 0.5) * 15,
+            w: rect.width,
+            h: rect.height
+        });
+    });
+
+    // Hide the panel now that all clones are stamped on screen — looks like it exploded apart
+    const bioContainer = document.querySelector('.bio-container');
+    if (bioContainer) bioContainer.style.visibility = 'hidden';
+
+    // Hue shift the background
+    document.body.style.transition = 'filter 4s ease';
+    document.body.style.filter = 'hue-rotate(360deg)';
+
+    let rafId;
+    function tick() {
+        physicsItems.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            p.angle += p.va;
+
+            // Bounce off screen edges
+            if (p.x <= 0) { p.x = 0; p.vx = Math.abs(p.vx); }
+            else if (p.x + p.w >= window.innerWidth) { p.x = window.innerWidth - p.w; p.vx = -Math.abs(p.vx); }
+            if (p.y <= 0) { p.y = 0; p.vy = Math.abs(p.vy); }
+            else if (p.y + p.h >= window.innerHeight) { p.y = window.innerHeight - p.h; p.vy = -Math.abs(p.vy); }
+
+            p.clone.style.left = p.x + 'px';
+            p.clone.style.top = p.y + 'px';
+            p.clone.style.transform = `rotate(${p.angle}deg)`;
+        });
+        rafId = requestAnimationFrame(tick);
+    }
+    tick();
+}
