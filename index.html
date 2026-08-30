@@ -279,39 +279,64 @@
                     <!-- Kaboom Day + Events: unified countdown block -->
                     <div class="countdown-block">
 
-                        <!-- 9/11 Remembrance Countdown -->
-                        <div class="nine-eleven-countdown" id="nine-eleven-card">
+                        <!-- 420 Countdown -->
+                        <div class="nine-eleven-countdown" id="nine-eleven-card" style="background-image: url('media/marijuana-background.jpg'); background-size: cover; background-position: center; background-color: rgba(0,0,0,0.6); background-blend-mode: multiply;">
                             <div class="nine-eleven-header">
-                                <span class="nine-eleven-flag">💥</span>
-                                <span class="nine-eleven-title">Kaboom Day</span>
-                                <span class="nine-eleven-flag">💥</span>
+                                <span class="nine-eleven-flag">🍃</span>
+                                <span class="nine-eleven-title">420 Day</span>
+                                <span class="nine-eleven-flag">🍃</span>
                             </div>
-                            <div class="nine-eleven-subtitle" id="nine-eleven-subtitle">September 11, 2001 · 8:46 AM (NYC Time)</div>
+
+                            <!-- Date countdown: until April 20th -->
+                            <div id="cd-420-year-title" style="font-size: 0.65rem; color: #aaa; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;">Until April 20th</div>
                             <div class="nine-eleven-timer">
                                 <div class="nine-eleven-box">
-                                    <span id="cd-911-days">00</span>
+                                    <span id="cd-420d-days">00</span>
                                     <small>Days</small>
                                 </div>
                                 <div class="nine-eleven-sep">:</div>
                                 <div class="nine-eleven-box">
-                                    <span id="cd-911-hours">00</span>
+                                    <span id="cd-420d-hours">00</span>
                                     <small>Hours</small>
                                 </div>
                                 <div class="nine-eleven-sep">:</div>
                                 <div class="nine-eleven-box">
-                                    <span id="cd-911-mins">00</span>
+                                    <span id="cd-420d-mins">00</span>
                                     <small>Mins</small>
                                 </div>
                                 <div class="nine-eleven-sep">:</div>
                                 <div class="nine-eleven-box">
-                                    <span id="cd-911-secs">00</span>
+                                    <span id="cd-420d-secs">00</span>
                                     <small>Secs</small>
                                 </div>
                             </div>
-                            <div class="nine-eleven-uk-flex">
-                                <img src="media/UnionJack.jpg" alt="UK Flag" style="width: 18px; height: 12px; border-radius: 2px; object-fit: cover;">
-                                <span class="nine-eleven-uk-note">In the UK we still got our towers</span>
-                                <img src="media/UnionJack.jpg" alt="UK Flag" style="width: 18px; height: 12px; border-radius: 2px; object-fit: cover;">
+
+                            <!-- Divider -->
+                            <div style="width: 80%; height: 1px; background: rgba(255,255,255,0.15); margin: 8px auto;"></div>
+
+                            <!-- Time countdown: until 4:20pm today -->
+                            <div style="font-size: 0.65rem; color: #aaa; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px;">Until 4:20 PM Today</div>
+                            <div class="nine-eleven-timer">
+                                <div class="nine-eleven-box">
+                                    <span id="cd-420t-hours">00</span>
+                                    <small>Hours</small>
+                                </div>
+                                <div class="nine-eleven-sep">:</div>
+                                <div class="nine-eleven-box">
+                                    <span id="cd-420t-mins">00</span>
+                                    <small>Mins</small>
+                                </div>
+                                <div class="nine-eleven-sep">:</div>
+                                <div class="nine-eleven-box">
+                                    <span id="cd-420t-secs">00</span>
+                                    <small>Secs</small>
+                                </div>
+                            </div>
+
+                            <div class="nine-eleven-uk-flex" style="margin-top: 8px;">
+                                <span>🍃</span>
+                                <span class="nine-eleven-uk-note">it's always 420 somewhere</span>
+                                <span>🍃</span>
                             </div>
                         </div>
 
@@ -356,14 +381,15 @@
                         <li>Renamed "Games I Cheat In As Of Now" to "Games Im gucci in" and dropped Fortnite from the list.</li>
                         <li>Added a new Roblox account (YzCat/Aqgrl643) to the Roblox dropdown and renamed all entries to show the display name and username.</li>
                         <li>Integrated a live Spotify "Now Playing" status directly inside the Discord card, showing my current song and artist in real time when I'm listening — powered by Last.fm. You can also click the song name to view the track!</li>
-                        <li>Cleaned up the Kaboom Day countdown by making the numbers slightly smaller, changing the glows from red to white, and locking the countdown to precisely 8:46 AM NYC Time instead of local time.</li>
+                        <li>Added a dual 420 countdown widget — the top half tracks the days until April 20th, while the bottom half ticks down to 4:20 PM UK time every single day.</li>
+                        <li>Added "Bam Bam" to the music player and set it to always play first when the site loads.</li>
                         <li>Made the "[ click to enter ]" text on the initial load screen larger and easier to read.</li>
                     </ul>
                 </div>
                 <div class="log-entry" style="margin-bottom: 15px;">
                     <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 26, 2026</h3>
                     <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
-                        <li>Added a big Kaboom Day countdown counter etc.</li>
+                        <li>Added a big live countdown block with upcoming events.</li>
                         <li>Formatted update logs to make it more viewable.</li>
                         <li>Moved "Games I Cheat In As Of Now" dropdown and Update Log button to the left column, below the time widget.</li>
                         <li>Added Proud Atheist badge with "believe in science" subtitle above the profile.</li>

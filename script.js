@@ -176,7 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // Playlist
     const playlist = [
         { title: "Assumptions", src: "media/bg-music.mp3" },
-        { title: "Lost Soul", src: "media/lost-soul.mp3" }
+        { title: "Lost Soul", src: "media/lost-soul.mp3" },
+        { title: "Bam Bam", src: "media/bam bam.mp3" }
     ];
     let currentTrackIndex = 0;
     
@@ -233,8 +234,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize with a random track from the playlist
-    loadTrack(Math.floor(Math.random() * playlist.length));
+    // Initialize with Bam Bam (index 2) by default
+    loadTrack(2);
 
     function formatTime(seconds) {
         if (isNaN(seconds)) return "00:00";
@@ -565,58 +566,77 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(updateCountdowns, 3600000);
     updateCountdowns();
 
-    // --- 9/11 Remembrance Live Countdown ---
-    function update911Countdown() {
+    // --- 420 Dual Countdown ---
+    function update420Countdown() {
         const now = new Date();
+        const ukNow = new Date(now.toLocaleString('en-US', { timeZone: 'Europe/London' }));
         const card = document.getElementById('nine-eleven-card');
-        const subtitle = document.getElementById('nine-eleven-subtitle');
-        const daysEl = document.getElementById('cd-911-days');
-        const hoursEl = document.getElementById('cd-911-hours');
-        const minsEl = document.getElementById('cd-911-secs') ? document.getElementById('cd-911-mins') : null;
-        const secsEl = document.getElementById('cd-911-secs');
-
-        // Get the current date in NYC timezone
-        const nycDate = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
-        const is911DayNYC = nycDate.getMonth() === 8 && nycDate.getDate() === 11;
-
-        // Next Sept 11 at exactly 8:46 AM NYC time (EDT = UTC-4) => 12:46 PM UTC
-        let target = new Date(Date.UTC(now.getFullYear(), 8, 11, 12, 46, 0));
-        
-        // If it's currently Sept 11 in NYC, and we are PAST 8:46 AM, stay at 00 00 00 00
-        if (is911DayNYC && now >= target) {
-            if (card) card.classList.add('is-today');
-            if (subtitle) subtitle.textContent = 'September 11, 2001 · 8:46 AM (NYC Time)';
-            if (daysEl) daysEl.textContent = '00';
-            if (hoursEl) hoursEl.textContent = '00';
-            const mEl = document.getElementById('cd-911-mins');
-            if (mEl) mEl.textContent = '00';
-            if (secsEl) secsEl.textContent = '00';
-            return;
-        }
-
-        if (card) card.classList.remove('is-today');
-
-        if (now >= target && !is911DayNYC) {
-            target = new Date(Date.UTC(now.getFullYear() + 1, 8, 11, 12, 46, 0));
-        }
-
-        const diff = target - now;
-        const totalSecs = Math.floor(diff / 1000);
-        const days = Math.floor(totalSecs / 86400);
-        const hours = Math.floor((totalSecs % 86400) / 3600);
-        const mins = Math.floor((totalSecs % 3600) / 60);
-        const secs = totalSecs % 60;
-
         const pad = n => String(n).padStart(2, '0');
-        if (daysEl) daysEl.textContent = pad(days);
-        if (hoursEl) hoursEl.textContent = pad(hours);
-        const mEl = document.getElementById('cd-911-mins');
-        if (mEl) mEl.textContent = pad(mins);
-        if (secsEl) secsEl.textContent = pad(secs);
+
+        // --- DATE countdown: until April 20th ---
+        const ukYear = ukNow.getFullYear();
+        let april20 = new Date(ukNow);
+        april20.setMonth(3); april20.setDate(20);
+        april20.setHours(0, 0, 0, 0);
+        // If April 20 has already passed this year, target next year
+        let targetYear = ukYear;
+        if (ukNow >= april20) {
+            targetYear = ukYear + 1;
+            april20.setFullYear(targetYear);
+        }
+
+        const yearTitle = document.getElementById('cd-420-year-title');
+        if (yearTitle) yearTitle.textContent = `Until April 20th (${targetYear})`;
+
+        // Convert both to UTC timestamps for reliable math across daylight savings changes
+        const msPerDay = 1000 * 60 * 60 * 24;
+        const ukNowUTC = Date.UTC(ukNow.getFullYear(), ukNow.getMonth(), ukNow.getDate(), ukNow.getHours(), ukNow.getMinutes(), ukNow.getSeconds());
+        const april20UTC = Date.UTC(targetYear, 3, 20, 0, 0, 0);
+
+        const dateDiff = Math.max(0, Math.floor((april20UTC - ukNowUTC) / 1000));
+        const dDays  = Math.floor(dateDiff / 86400);
+        const dHours = Math.floor((dateDiff % 86400) / 3600);
+        const dMins  = Math.floor((dateDiff % 3600) / 60);
+        const dSecs  = dateDiff % 60;
+
+        const dDaysEl  = document.getElementById('cd-420d-days');
+        const dHoursEl = document.getElementById('cd-420d-hours');
+        const dMinsEl  = document.getElementById('cd-420d-mins');
+        const dSecsEl  = document.getElementById('cd-420d-secs');
+        if (dDaysEl)  dDaysEl.textContent  = pad(dDays);
+        if (dHoursEl) dHoursEl.textContent = pad(dHours);
+        if (dMinsEl)  dMinsEl.textContent  = pad(dMins);
+        if (dSecsEl)  dSecsEl.textContent  = pad(dSecs);
+
+        // --- TIME countdown: until 4:20pm UK time today ---
+        const ukH = ukNow.getHours();
+        const ukM = ukNow.getMinutes();
+        const ukS = ukNow.getSeconds();
+        const totalSecsNow = ukH * 3600 + ukM * 60 + ukS;
+        const target420   = 16 * 3600 + 20 * 60;
+        const is420Now    = ukH === 16 && ukM === 20;
+
+        if (is420Now) {
+            if (card) card.classList.add('is-today');
+        } else {
+            if (card) card.classList.remove('is-today');
+        }
+
+        let timeDiff = is420Now ? 0 : (totalSecsNow < target420 ? target420 - totalSecsNow : (86400 - totalSecsNow) + target420);
+        const tHours = Math.floor(timeDiff / 3600);
+        const tMins  = Math.floor((timeDiff % 3600) / 60);
+        const tSecs  = timeDiff % 60;
+
+        const tHoursEl = document.getElementById('cd-420t-hours');
+        const tMinsEl  = document.getElementById('cd-420t-mins');
+        const tSecsEl  = document.getElementById('cd-420t-secs');
+        if (tHoursEl) tHoursEl.textContent = pad(tHours);
+        if (tMinsEl)  tMinsEl.textContent  = pad(tMins);
+        if (tSecsEl)  tSecsEl.textContent  = pad(tSecs);
     }
 
-    update911Countdown();
-    setInterval(update911Countdown, 1000);
+    update420Countdown();
+    setInterval(update420Countdown, 1000);
 
     // Update Log Modal Logic
     const updateBtn = document.getElementById('update-log-btn');
