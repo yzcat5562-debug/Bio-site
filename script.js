@@ -787,7 +787,7 @@ function triggerEasterEggSecond() {
     if (bgMusic) bgMusic.pause();
 
     // Play alarm
-    const alarm = new Audio('media/alarm.mp3');
+    const alarm = new Audio('media/Alarm.mp3');
     alarm.loop = true;
     alarm.volume = 0.25;
     alarm.play().catch(() => {});
@@ -858,7 +858,7 @@ function triggerEasterEgg() {
     // Kill bg music, play the chaos track
     const bgMusic = document.getElementById('bg-music');
     if (bgMusic) bgMusic.pause();
-    chaosTrack = new Audio('media/Monkeys Spinning Monkeys.mp3');
+    chaosTrack = new Audio('media/monkeys-spinning-monkeys.mp3');
     chaosTrack.volume = 0.4;
     chaosTrack.play().catch(() => {});
 
