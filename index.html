@@ -12,9 +12,19 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap"
         rel="stylesheet">
+    <script>
+        if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            document.documentElement.innerHTML = '<head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; text-align: center; }</style></head><body>site is broken on mobile fixing later</body>';
+            // Stop further parsing of the document
+            if (window.stop) {
+                window.stop();
+            }
+        }
+    </script>
 </head>
 
 <body>
+    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 0.875rem; color: rgba(255, 255, 255, 0.5); z-index: 9999; pointer-events: none; text-align: center; width: 100%;" class="text-sm">site is fucked on mobile</div>
 
     <div class="enter-screen" id="enter-screen">
         <div class="enter-text">[ click to enter ]</div>
@@ -343,6 +353,7 @@
                 <div class="log-entry" style="margin-bottom: 15px;">
                     <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">August 30, 2026</h3>
                     <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Added a strict mobile detection system that replaces the site on phones with a simple "broken, fixing later" message, and added a top-middle warning banner for desktop users explaining the mobile layout is messed up.</li>
                         <li>Replaced the israelservices.xyz embed with a live site uptime counter showing how long yzcat.xyz has been running.</li>
                         <li>Renamed "Games I Cheat In As Of Now" to "Games Im gucci in" and dropped Fortnite from the list.</li>
                         <li>Added a new Roblox account (YzCat/Aqgrl643) to the Roblox dropdown and renamed all entries to show the display name and username.</li>
