@@ -112,7 +112,7 @@ body {
 
 .bio-container.visible {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0) scale(0.92);
 }
 
 .bio-card {
