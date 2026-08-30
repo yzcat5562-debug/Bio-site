@@ -46,9 +46,9 @@ body {
 }
 
 .enter-text {
-    font-size: 1.2rem;
-    letter-spacing: 3px;
-    font-weight: 300;
+    font-size: 1.8rem;
+    letter-spacing: 4px;
+    font-weight: 400;
     animation: pulse 2s infinite;
 }
 
@@ -122,7 +122,7 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.15);
     border-radius: 16px;
     padding: 2rem;
-    width: 720px;
+    width: 800px;
     max-width: 95vw;
     display: flex;
     flex-direction: row;
@@ -222,6 +222,28 @@ body {
     margin-bottom: 10px;
     font-style: italic;
     letter-spacing: 0.3px;
+}
+
+.uptime-counter {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 0.75rem;
+    color: #a0a0a0;
+    background: rgba(20, 20, 20, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    padding: 8px 12px;
+    letter-spacing: 0.5px;
+}
+
+.uptime-counter span {
+    color: #ffffff;
+    font-weight: 600;
+}
+
+@keyframes spotify-pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.4; transform: scale(0.7); }
 }
 
 .avatar-container {
@@ -331,7 +353,7 @@ body {
     display: flex;
     justify-content: center;
     gap: 6px;
-    margin-bottom: 2rem;
+    margin-bottom: 10px;
     flex-wrap: wrap;
     width: 100%;
     max-width: 310px; /* Fits exactly 7 icons (7 * 38px + 6 * 6px = 302px) */
@@ -726,6 +748,13 @@ body {
 .spotify-link:hover {
     color: #1DB954; /* Spotify green */
     transform: scale(1.1);
+}
+
+#spotify-song-title a {
+    transition: color 0.3s ease;
+}
+#spotify-song-title a:hover {
+    color: #1DB954 !important;
 }
 
 #track-info-btn {
@@ -1138,11 +1167,9 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
     width: 100%;
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(180, 30, 30, 0.4);
     border-radius: 16px;
     overflow: hidden;
     background: transparent;
-    box-shadow: 0 0 28px rgba(180, 30, 30, 0.12);
 }
 
 .countdown-block-divider {
@@ -1219,7 +1246,7 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
     letter-spacing: 2px;
     text-transform: uppercase;
     text-align: center;
-    text-shadow: 0 0 18px rgba(230, 53, 53, 0.5);
+    text-shadow: 0 0 16px rgba(255, 255, 255, 0.3);
 }
 
 .nine-eleven-subtitle {
@@ -1250,10 +1277,10 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
 }
 
 .nine-eleven-box span {
-    font-size: 1.65rem;
+    font-size: 1.4rem;
     font-weight: 800;
-    color: #e63535;
-    text-shadow: 0 0 14px rgba(230, 53, 53, 0.55);
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
     letter-spacing: 1px;
     font-variant-numeric: tabular-nums;
     line-height: 1;
@@ -1268,9 +1295,9 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
 }
 
 .nine-eleven-sep {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: 800;
-    color: rgba(230, 53, 53, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     margin-bottom: 14px;
     align-self: center;
     line-height: 1;
@@ -1538,3 +1565,4 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
     filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
     display: inline-block;
 }
+

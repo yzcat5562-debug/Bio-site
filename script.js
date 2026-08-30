@@ -403,27 +403,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // --- Discord Presence + Spotify (Lanyard WebSocket) ---
+    // --- Discord Presence (Lanyard WebSocket) ---
     const discordId = '1090716729996488725';
-
-    function updateSpotifyCard(spotify) {
-        const card = document.getElementById('spotify-card');
-        if (!card) return;
-        if (spotify) {
-            document.getElementById('spotify-song').textContent = spotify.song;
-            document.getElementById('spotify-artist').textContent = spotify.artist.replace(/;/g, ',');
-            document.getElementById('spotify-album-art').src = spotify.album_art_url;
-
-            const elapsed = Date.now() - spotify.timestamps.start;
-            const total = spotify.timestamps.end - spotify.timestamps.start;
-            const pct = Math.min((elapsed / total) * 100, 100);
-            document.getElementById('spotify-progress').style.width = `${pct}%`;
-
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
-    }
 
     function updateDiscordCard(d) {
         const statusDot = document.getElementById('discord-status-dot');
@@ -439,7 +420,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (d.discord_user.avatar) {
             pfp.src = `https://cdn.discordapp.com/avatars/${d.discord_user.id}/${d.discord_user.avatar}.png?size=128`;
         }
-        updateSpotifyCard(d.spotify);
     }
 
     function connectLanyard() {
@@ -453,19 +433,16 @@ document.addEventListener('DOMContentLoaded', () => {
         ws.onmessage = (event) => {
             const msg = JSON.parse(event.data);
             if (msg.op === 1) {
-                // HELLO — start heartbeat
                 heartbeatInterval = setInterval(() => {
                     if (ws.readyState === WebSocket.OPEN) ws.send(JSON.stringify({ op: 3 }));
                 }, msg.d.heartbeat_interval);
             } else if (msg.op === 0) {
-                // EVENT — presence update
                 updateDiscordCard(msg.d);
             }
         };
 
         ws.onclose = () => {
             clearInterval(heartbeatInterval);
-            // Reconnect after 5s if connection drops
             setTimeout(connectLanyard, 5000);
         };
 
@@ -473,6 +450,42 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     connectLanyard();
+
+    // --- Spotify Now Playing via Last.fm ---
+    async function fetchLastFm() {
+        try {
+            const res = await fetch('https://ws.audioscrobbler.com/2.0/?method=user.getrecenttracks&user=yzcat&api_key=5be033514893c68a7b141fd13e53fa96&format=json&limit=1');
+            const data = await res.json();
+            const track = data.recenttracks.track[0];
+            const line = document.getElementById('spotify-line');
+            const songTitle = document.getElementById('spotify-song-title');
+            const artistName = document.getElementById('spotify-artist-name');
+
+            line.style.display = 'flex';
+
+            if (track && track['@attr'] && track['@attr'].nowplaying === 'true') {
+                const song = track.name;
+                const artist = track.artist['#text'];
+                const trackUrl = track.url;
+                
+                line.style.color = '#1DB954';
+                songTitle.style.color = '#fff';
+                songTitle.innerHTML = `<a href="${trackUrl}" target="_blank" style="color: inherit; text-decoration: none; position: relative;">${song} <i class="fas fa-external-link-alt" style="font-size: 0.6rem; color: #1DB954; opacity: 0.8; margin-left: 2px;"></i></a>`;
+                artistName.style.display = 'block';
+                artistName.textContent = `by ${artist}`;
+            } else {
+                line.style.color = '#888';
+                songTitle.style.color = '#888';
+                songTitle.textContent = 'Not listening to anything';
+                artistName.style.display = 'none';
+            }
+        } catch (e) {
+            console.log('Last.fm fetch failed:', e);
+        }
+    }
+
+    fetchLastFm();
+    setInterval(fetchLastFm, 15000);
 
     // --- YouTube Real-Time Stats ---
     // IMPORTANT: You need a YouTube Data API v3 Key and your Channel ID for this to work.
@@ -559,12 +572,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const minsEl = document.getElementById('cd-911-secs') ? document.getElementById('cd-911-mins') : null;
         const secsEl = document.getElementById('cd-911-secs');
 
-        const is911Day = now.getMonth() === 8 && now.getDate() === 11; // Sept = month 8
+        // Get the current date in NYC timezone
+        const nycDate = new Date(now.toLocaleString("en-US", { timeZone: "America/New_York" }));
+        const is911DayNYC = nycDate.getMonth() === 8 && nycDate.getDate() === 11;
 
-        if (is911Day) {
-            // Today IS September 11th — solemn mode
+        // Next Sept 11 at exactly 8:46 AM NYC time (EDT = UTC-4) => 12:46 PM UTC
+        let target = new Date(Date.UTC(now.getFullYear(), 8, 11, 12, 46, 0));
+        
+        // If it's currently Sept 11 in NYC, and we are PAST 8:46 AM, stay at 00 00 00 00
+        if (is911DayNYC && now >= target) {
             if (card) card.classList.add('is-today');
-            if (subtitle) subtitle.textContent = 'September 11, 2001 · 8:46 AM';
+            if (subtitle) subtitle.textContent = 'September 11, 2001 · 8:46 AM (NYC Time)';
             if (daysEl) daysEl.textContent = '00';
             if (hoursEl) hoursEl.textContent = '00';
             const mEl = document.getElementById('cd-911-mins');
@@ -575,10 +593,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (card) card.classList.remove('is-today');
 
-        // Next Sept 11
-        let target = new Date(now.getFullYear(), 8, 11); // month 8 = September
-        if (now >= target) {
-            target = new Date(now.getFullYear() + 1, 8, 11);
+        if (now >= target && !is911DayNYC) {
+            target = new Date(Date.UTC(now.getFullYear() + 1, 8, 11, 12, 46, 0));
         }
 
         const diff = target - now;
@@ -699,3 +715,16 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(updateUptime, 1000);
     });
 })();
+
+// Prevent zooming via Keyboard (Ctrl + Plus/Minus) and Mouse Wheel (Ctrl + Scroll)
+document.addEventListener('keydown', function(event) {
+    if (event.ctrlKey && (event.key === '=' || event.key === '-' || event.key === '+' || event.key === '_')) {
+        event.preventDefault();
+    }
+});
+
+document.addEventListener('wheel', function(event) {
+    if (event.ctrlKey) {
+        event.preventDefault();
+    }
+}, { passive: false });

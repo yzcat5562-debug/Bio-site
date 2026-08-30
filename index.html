@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>☽˚｡⋆ ⋆｡˚ ☁︎ ˚｡⋆｡˚</title>
     <link rel="icon" type="image/png" href="media/ContainsThc.png">
     <link rel="stylesheet" href="style.css">
@@ -114,8 +114,18 @@
                         </div>
                     </div>
 
-                    <a href="mailto:yzcat5562@gmail.com" class="social-link" style="--clr: #ffffff;"><i
-                            class="fas fa-envelope"></i></a>
+                    <div class="social-dropdown">
+                        <a href="javascript:void(0)" class="social-link" style="--clr: #ffffff;"><i class="fas fa-envelope"></i></a>
+                        <div class="dropdown-content" style="min-width: 190px;">
+                            <div style="padding: 4px 2px 6px; color: #a0a0a0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
+                            <a href="javascript:void(0)" id="copy-email-btn" onclick="
+                                navigator.clipboard.writeText('yzcat5562@gmail.com');
+                                this.textContent = 'Copied!';
+                                this.style.color = '#00ff88';
+                                setTimeout(() => { this.textContent = 'yzcat5562@gmail.com'; this.style.color = ''; }, 2000);
+                            ">yzcat5562@gmail.com</a>
+                        </div>
+                    </div>
 
                     <a href="https://kick.com/yzcat420" class="social-link" style="--clr: #ffffff;" target="_blank">
                         <img src="https://cdn.simpleicons.org/kick/white" alt="Kick" style="width: 1.2em; height: 1.2em; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3)); transition: all 0.3s ease;" onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(255, 255, 255, 0.8))'" onmouseout="this.style.filter='drop-shadow(0 0 4px rgba(255, 255, 255, 0.3))'">
@@ -209,25 +219,15 @@
                         <div class="discord-info">
                             <div class="discord-username" id="discord-username">Loading Discord...</div>
                             <div class="discord-id" id="discord-id">Please set your Discord ID in script.js</div>
+                            <div id="spotify-line" style="display: flex; align-items: flex-start; gap: 6px; margin-top: 6px; font-size: 0.75rem; color: #888; line-height: 1.3;">
+                                <i class="fab fa-spotify" style="flex-shrink: 0; margin-top: 2px;"></i>
+                                <div style="display: flex; flex-direction: column; max-width: 250px; overflow: hidden;">
+                                    <span id="spotify-song-title" style="color: #fff; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></span>
+                                    <span id="spotify-artist-name" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 0.85; font-size: 0.7rem;"></span>
+                                </div>
+                            </div>
                         </div>
                         <i class="fab fa-discord discord-watermark"></i>
-                    </div>
-
-
-                    <!-- Spotify Now Playing (via Lanyard) -->
-                    <div id="spotify-card" style="display: none; align-items: center; gap: 12px; background: rgba(30,215,96,0.08); border: 1px solid rgba(30,215,96,0.25); border-radius: 14px; padding: 12px 14px; margin-bottom: 10px;">
-                        <img id="spotify-album-art" src="" alt="Album Art" style="width: 52px; height: 52px; border-radius: 8px; object-fit: cover; flex-shrink: 0;">
-                        <div style="flex: 1; min-width: 0;">
-                            <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-                                <i class="fab fa-spotify" style="color: #1DB954; font-size: 0.85rem;"></i>
-                                <span style="font-size: 0.65rem; color: #1DB954; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 600;">Listening on Spotify</span>
-                            </div>
-                            <div id="spotify-song" style="font-size: 0.85rem; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
-                            <div id="spotify-artist" style="font-size: 0.72rem; color: #a0a0a0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
-                            <div style="margin-top: 6px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden;">
-                                <div id="spotify-progress" style="height: 100%; background: #1DB954; border-radius: 2px; width: 0%; transition: width 1s linear;"></div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="audio-player">
@@ -278,7 +278,7 @@
                                 <span class="nine-eleven-title">Kaboom Day</span>
                                 <span class="nine-eleven-flag">💥</span>
                             </div>
-                            <div class="nine-eleven-subtitle" id="nine-eleven-subtitle">September 11, 2001 · 8:46 AM</div>
+                            <div class="nine-eleven-subtitle" id="nine-eleven-subtitle">September 11, 2001 · 8:46 AM (NYC Time)</div>
                             <div class="nine-eleven-timer">
                                 <div class="nine-eleven-box">
                                     <span id="cd-911-days">00</span>
@@ -346,7 +346,9 @@
                         <li>Replaced the israelservices.xyz embed with a live site uptime counter showing how long yzcat.xyz has been running.</li>
                         <li>Renamed "Games I Cheat In As Of Now" to "Games Im gucci in" and dropped Fortnite from the list.</li>
                         <li>Added a new Roblox account (YzCat/Aqgrl643) to the Roblox dropdown and renamed all entries to show the display name and username.</li>
-                        <li>Added a live Spotify "Now Playing" card that shows the song, artist, album art and progress bar in real time when I'm listening — powered by Discord.</li>
+                        <li>Integrated a live Spotify "Now Playing" status directly inside the Discord card, showing my current song and artist in real time when I'm listening — powered by Last.fm. You can also click the song name to view the track!</li>
+                        <li>Cleaned up the Kaboom Day countdown by making the numbers slightly smaller, changing the glows from red to white, and locking the countdown to precisely 8:46 AM NYC Time instead of local time.</li>
+                        <li>Made the "[ click to enter ]" text on the initial load screen larger and easier to read.</li>
                     </ul>
                 </div>
                 <div class="log-entry" style="margin-bottom: 15px;">
