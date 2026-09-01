@@ -125,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             bgMusic.volume = document.getElementById('volume-slider').value;
             bgMusic.play();
+            showMacOsNotification(playlist[currentTrackIndex].title);
         } catch (e) {
             console.log("Audio playback was prevented by the browser.");
         }
@@ -232,6 +233,25 @@ document.addEventListener('DOMContentLoaded', () => {
         if (wasPlaying) {
             bgMusic.play().catch(e => console.log(e));
         }
+        
+        if (hasEntered) {
+            showMacOsNotification(track.title);
+        }
+    }
+
+    let notifTimeout;
+    function showMacOsNotification(title) {
+        const notif = document.getElementById('song-notification');
+        const songName = document.getElementById('notif-song-name');
+        if (!notif || !songName) return;
+        
+        songName.textContent = title;
+        notif.classList.add('show');
+        
+        clearTimeout(notifTimeout);
+        notifTimeout = setTimeout(() => {
+            notif.classList.remove('show');
+        }, 3000);
     }
 
     // Initialize with Bam Bam (index 2) by default
@@ -713,6 +733,9 @@ document.addEventListener('DOMContentLoaded', () => {
             gamesContainer.classList.toggle('expanded');
         });
     }
+
+
+
 });
 
 // Site Uptime — runs outside DOMContentLoaded so it can't be blocked
@@ -997,3 +1020,265 @@ function triggerEasterEgg() {
     }
     tick();
 }
+
+    // Visual Soundwave Logic
+    const visualizer = document.getElementById('css-visualizer');
+    const globalBgMusic = document.getElementById('bg-music');
+    
+    // Check initial state
+    if (visualizer && globalBgMusic && !globalBgMusic.paused) {
+        visualizer.classList.add('playing');
+    }
+    
+    if (globalBgMusic) {
+        globalBgMusic.addEventListener('play', () => {
+            if (visualizer) visualizer.classList.add('playing');
+        });
+        globalBgMusic.addEventListener('pause', () => {
+            if (visualizer) visualizer.classList.remove('playing');
+        });
+    }
+
+window.hitBong = function() {
+    const bong = document.getElementById("bong-img");
+    const avatar = document.getElementById("avatar-img");
+    
+    if (bong && avatar) {
+        const bongRect = bong.getBoundingClientRect();
+        const avatarRect = avatar.getBoundingClientRect();
+
+        // Calculate center of avatar (mouth area is roughly center-bottom)
+        const targetX = avatarRect.left + (avatarRect.width / 2);
+        const targetY = avatarRect.top + (avatarRect.height / 1.5);
+
+        // Calculate current center of bong
+        const startX = bongRect.left + (bongRect.width / 2);
+        const startY = bongRect.top + (bongRect.height / 2);
+
+        const deltaX = targetX - startX;
+        const deltaY = targetY - startY;
+
+        bong.style.transition = "transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)";
+        bong.style.transform = `translate(${deltaX}px, ${deltaY}px) scale(2.5) rotate(-20deg)`;
+    }
+
+    if (window.triggerHotbox) window.triggerHotbox();
+}
+
+// Hotbox Mode
+window.triggerHotbox = function() {
+    const hotboxBtn = document.getElementById("hotbox-btn");
+    let hotboxSmoke = document.getElementById("hotbox-smoke");
+    const particles = document.getElementById("particles");
+
+    // Dynamically create the elements if they don't exist in the HTML yet
+    if (!hotboxSmoke) {
+        hotboxSmoke = document.createElement("div");
+        hotboxSmoke.id = "hotbox-smoke";
+        hotboxSmoke.className = "hotbox-overlay";
+        document.body.appendChild(hotboxSmoke);
+    }
+
+    if (hotboxBtn) {
+        hotboxBtn.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 8px;"></i> Lighting up...';
+    }
+
+    function releaseSmoke() {
+        // Force reflow
+        void hotboxSmoke.offsetWidth;
+        hotboxSmoke.classList.add("active");
+        if (particles) particles.classList.add("hotbox-hidden");
+
+        // Spawn 60 real smoke particles from the sides
+        for (let i = 0; i < 60; i++) {
+            setTimeout(() => {
+                const particle = document.createElement('div');
+                particle.className = 'real-smoke-particle';
+                
+                const isLeft = i % 2 === 0;
+                
+                // Random size
+                const size = Math.random() * 200 + 200; // 200px to 400px
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Start position
+                particle.style.top = `${Math.random() * 100 - 10}vh`;
+                if (isLeft) {
+                    particle.style.left = `-${size/2}px`;
+                } else {
+                    particle.style.right = `-${size/2}px`;
+                }
+                
+                // Animation direction
+                const direction = isLeft ? 1 : -1;
+                const distance = Math.random() * 40 + 30; // 30vw to 70vw
+                particle.style.setProperty('--tx', `${direction * distance}vw`);
+                particle.style.setProperty('--ty', `${(Math.random() - 0.5) * 40}vh`);
+                
+                const duration = Math.random() * 2 + 3; // 3s to 5s
+                particle.style.animation = `smokeDrift ${duration}s ease-out forwards`;
+                
+                document.body.appendChild(particle);
+                
+                setTimeout(() => particle.remove(), duration * 1000);
+            }, i * 40);
+        }
+        
+        if (hotboxBtn) hotboxBtn.innerHTML = '<i class="fas fa-cloud" style="margin-right: 8px;"></i> Hotboxed!';
+        
+        setTimeout(() => {
+            hotboxSmoke.classList.remove("active");
+            if (particles) particles.classList.remove("hotbox-hidden");
+            if (hotboxBtn) hotboxBtn.innerHTML = '<i class="fas fa-cloud" style="margin-right: 8px;"></i> Hotbox Mode';
+            
+            const bong = document.getElementById("bong-img");
+            if (bong) {
+                bong.style.transition = "transform 1s ease-in-out";
+                bong.style.transform = "translate(0, 0) scale(1) rotate(0deg)";
+            }
+        }, 5000);
+    }
+
+    try {
+        const bongHitAudio = new Audio('media/Bong-Hit.mp3');
+        bongHitAudio.volume = 1.0;
+        
+        let playPromise = bongHitAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(e => {
+                console.log("Audio play failed, releasing smoke anyway:", e);
+                releaseSmoke(); // Fallback if audio fails
+            });
+        }
+        
+        // Release smoke only once when audio ends
+        bongHitAudio.onended = releaseSmoke;
+    } catch(e) {
+        console.log("Audio setup failed:", e);
+        releaseSmoke();
+    }
+};
+
+
+// 420 UK Time Alarm
+function check420Alarm() {
+    const now = new Date();
+    const str = now.toLocaleString("en-US", { timeZone: "Europe/London" });
+    const londonTime = new Date(str);
+    
+    const hours = londonTime.getHours();
+    const minutes = londonTime.getMinutes();
+    const dateString = londonTime.toDateString();
+    
+    if (hours === 16 && minutes === 20) {
+        const lastTriggered = localStorage.getItem("last420Trigger");
+        if (lastTriggered !== dateString) {
+            trigger420Alarm();
+            localStorage.setItem("last420Trigger", dateString);
+        }
+    }
+}
+
+function trigger420Alarm() {
+    const style = document.createElement("style");
+    style.innerHTML = `
+    @keyframes rainLeaf {
+        0% { transform: translateY(-10vh) rotate(0deg) translateX(0px); opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { transform: translateY(110vh) rotate(360deg) translateX(var(--sway)); opacity: 0; }
+    }
+    .weed-leaf-rain {
+        position: fixed !important;
+        top: -10vh;
+        color: #4CAF50;
+        z-index: 5;
+        pointer-events: none;
+        text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+    }
+    `;
+    document.head.appendChild(style);
+
+    const flash = document.createElement("div");
+    flash.style.position = "fixed";
+    flash.style.top = "0";
+    flash.style.left = "0";
+    flash.style.width = "100vw";
+    flash.style.height = "100vh";
+    flash.style.backgroundColor = "rgba(76, 175, 80, 0.4)";
+    flash.style.zIndex = "5";
+    flash.style.pointerEvents = "none";
+    flash.style.transition = "opacity 0.5s ease-out";
+    document.body.appendChild(flash);
+    
+    const particles = document.getElementById("particles");
+    if (particles) particles.classList.add("hotbox-hidden");
+    
+    const banner = document.createElement("div");
+    banner.style.position = "fixed";
+    banner.style.top = "-100px";
+    banner.style.left = "50%";
+    banner.style.transform = "translateX(-50%)";
+    banner.style.backgroundColor = "#1a1a1a";
+    banner.style.color = "#4CAF50";
+    banner.style.padding = "15px 30px";
+    banner.style.borderRadius = "10px";
+    banner.style.border = "2px solid rgba(76, 175, 80, 0.5)";
+    banner.style.boxShadow = "0 0 20px rgba(76, 175, 80, 0.3)";
+    banner.style.fontFamily = "'Poppins', sans-serif";
+    banner.style.fontWeight = "bold";
+    banner.style.fontSize = "1.2rem";
+    banner.style.zIndex = "5";
+    banner.style.whiteSpace = "nowrap";
+    banner.style.transition = "top 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+    banner.innerHTML = "<i class=\"fas fa-leaf\" style=\"margin-right: 10px;\"></i> IT'S 4:20 IN THE UK - TIME TO BLAZE IT <i class=\"fas fa-leaf\" style=\"margin-left: 10px;\"></i>";
+    document.body.appendChild(banner);
+    
+    // Force reflow
+    void banner.offsetWidth;
+    
+    // Spawn rain
+    const leaves = [];
+    for (let i = 0; i < 40; i++) {
+        setTimeout(() => {
+            const leaf = document.createElement("i");
+            leaf.className = "fas fa-leaf weed-leaf-rain";
+            leaf.style.left = `${Math.random() * 100}vw`;
+            
+            const size = Math.random() * 20 + 16;
+            leaf.style.fontSize = `${size}px`;
+            
+            const duration = Math.random() * 2 + 3; // 3 to 5 seconds
+            leaf.style.animation = `rainLeaf ${duration}s linear forwards`;
+            
+            const sway = (Math.random() - 0.5) * 200; // -100px to 100px
+            leaf.style.setProperty("--sway", `${sway}px`);
+            
+            document.body.appendChild(leaf);
+            leaves.push(leaf);
+        }, i * 100);
+    }
+    
+    setTimeout(() => {
+        banner.style.top = "20px";
+    }, 100);
+    
+    setTimeout(() => {
+        flash.style.opacity = "0";
+        banner.style.top = "-100px";
+    }, 6000);
+    
+    setTimeout(() => {
+        flash.remove();
+        banner.remove();
+        style.remove();
+        leaves.forEach(l => l.remove());
+        if (particles) particles.classList.remove("hotbox-hidden");
+    }, 7000);
+}
+
+// Check the time every 5 seconds so we do not miss the minute
+setInterval(check420Alarm, 5000);
+
+

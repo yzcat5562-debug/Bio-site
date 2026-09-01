@@ -7,6 +7,11 @@
     --accent: #ffffff;
 }
 
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -18,6 +23,7 @@ body {
     background-color: var(--bg-color);
     color: var(--text-primary);
     overflow: hidden;
+    overflow-x: hidden;
     height: 100vh;
     display: flex;
     justify-content: center;
@@ -93,14 +99,20 @@ body {
     pointer-events: none;
 }
 
-.particles {
-    position: absolute;
+#particles {
+    position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
     pointer-events: none;
+    overflow: hidden;
+    transition: opacity 1s ease-in-out;
+}
+
+#particles.hotbox-hidden {
+    opacity: 0;
 }
 
 /* Bio Card */
@@ -137,7 +149,7 @@ body {
 
 @media (min-width: 769px) {
     .left-column {
-        flex: 0 0 310px; /* Exact width needed for the social icons */
+        flex: 0 0 340px; /* Exact width needed for the social icons */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -352,11 +364,11 @@ body {
 .socials {
     display: flex;
     justify-content: center;
-    gap: 6px;
+    gap: 10px;
     margin-bottom: 10px;
     flex-wrap: wrap;
     width: 100%;
-    max-width: 310px; /* Fits exactly 7 icons (7 * 38px + 6 * 6px = 302px) */
+    max-width: 340px; /* Fits exactly 7 icons (7 * 38px + 6 * 10px = 326px) */
     margin-left: auto;
     margin-right: auto;
 }
@@ -601,6 +613,8 @@ body {
     flex-direction: column;
     gap: 15px;
     margin-top: -10px; /* Pulled up closer to Discord card */
+    position: relative;
+    overflow: hidden;
 }
 
 .player-content {
@@ -1205,11 +1219,11 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
     background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.65)), url('media/Towers.jpg') center center / cover no-repeat;
     border: none;
     border-radius: 0;
-    padding: 18px 16px 14px;
+    padding: 12px 14px 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     position: relative;
     overflow: hidden;
     box-shadow: none;
@@ -1229,7 +1243,7 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
 .nine-eleven-header {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 6px;
     justify-content: center;
     width: 100%;
 }
@@ -1240,7 +1254,7 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
 }
 
 .nine-eleven-title {
-    font-size: 1.6rem;
+    font-size: 1.25rem;
     font-weight: 800;
     color: #ffffff;
     letter-spacing: 2px;
@@ -1272,12 +1286,12 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
     background: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(180, 30, 30, 0.3);
     border-radius: 10px;
-    padding: 10px 8px 7px;
+    padding: 6px 6px 4px;
     flex: 1;
 }
 
 .nine-eleven-box span {
-    font-size: 1.4rem;
+    font-size: 1.15rem;
     font-weight: 800;
     color: #ffffff;
     text-shadow: 0 0 12px rgba(255, 255, 255, 0.4);
@@ -1295,10 +1309,10 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
 }
 
 .nine-eleven-sep {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 800;
     color: rgba(255, 255, 255, 0.5);
-    margin-bottom: 14px;
+    margin-bottom: 8px;
     align-self: center;
     line-height: 1;
 }
@@ -1564,5 +1578,250 @@ a, button, .custom-btn, .social-link, .copy-wallet, .discord-card, .progress-bar
     object-fit: contain;
     filter: drop-shadow(0 0 2px rgba(255,255,255,0.3));
     display: inline-block;
+}
+
+
+/* macOS Style Notification */
+.macos-notification {
+    position: fixed;
+    top: 20px;
+    right: -350px;
+    width: 280px;
+    background: rgba(10, 10, 10, 0.35); /* Lower opacity for more transparency */
+    backdrop-filter: blur(24px) saturate(150%); /* Higher blur and saturation */
+    -webkit-backdrop-filter: blur(24px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.15); /* Brighter border to catch the light */
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6), inset 0 1px 1px rgba(255, 255, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.05); /* Enhanced glass reflections */
+    z-index: 10000;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.macos-notification.show {
+    right: 20px;
+    opacity: 1;
+}
+
+.notif-icon {
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.notif-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.notif-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: rgba(255, 255, 255, 0.5);
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.notif-song {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+
+/* Visual Soundwave for Music Player */
+.soundwave {
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.soundwave.playing {
+    opacity: 1;
+}
+
+.soundwave .bar {
+    width: 2px;
+    background: var(--primary-glow);
+    border-radius: 1px;
+    animation: soundwave-bounce 0.5s infinite alternate ease-in-out;
+    transform-origin: bottom;
+}
+
+.soundwave .bar:nth-child(1) { height: 40%; animation-delay: 0.1s; }
+.soundwave .bar:nth-child(2) { height: 80%; animation-delay: 0.3s; }
+.soundwave .bar:nth-child(3) { height: 100%; animation-delay: 0.0s; }
+.soundwave .bar:nth-child(4) { height: 60%; animation-delay: 0.2s; }
+
+@keyframes soundwave-bounce {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1); }
+}
+
+
+.css-visualizer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding: 0 10px;
+    box-sizing: border-box;
+    transition: opacity 0.5s;
+}
+
+.css-visualizer.playing {
+    opacity: 0.6; /* Much more visible */
+}
+
+.css-visualizer .eq-bar {
+    width: 5%;
+    background: var(--primary-glow); /* Glowing neon color */
+    box-shadow: 0 0 10px var(--primary-glow);
+    border-radius: 2px 2px 0 0;
+    transform-origin: bottom;
+    animation: eq-bounce 0.5s infinite alternate ease-in-out;
+    animation-play-state: paused;
+}
+. c s s - v i s u a l i z e r . p l a y i n g   . e q - b a r   { 
+         a n i m a t i o n - p l a y - s t a t e :   r u n n i n g ; 
+.css-visualizer.playing .eq-bar {
+    animation-play-state: running;
+}
+
+@keyframes eq-bounce {
+    0% { height: 10%; }
+    100% { height: 100%; }
+}
+
+/* Randomize animation delays for EQ effect */
+.eq-bar:nth-child(1) { animation-duration: 0.4s; animation-delay: 0.1s; }
+.eq-bar:nth-child(2) { animation-duration: 0.5s; animation-delay: 0.3s; }
+.eq-bar:nth-child(3) { animation-duration: 0.6s; animation-delay: 0.0s; }
+.eq-bar:nth-child(4) { animation-duration: 0.4s; animation-delay: 0.2s; }
+.eq-bar:nth-child(5) { animation-duration: 0.5s; animation-delay: 0.4s; }
+.eq-bar:nth-child(6) { animation-duration: 0.6s; animation-delay: 0.1s; }
+.eq-bar:nth-child(7) { animation-duration: 0.4s; animation-delay: 0.3s; }
+.eq-bar:nth-child(8) { animation-duration: 0.5s; animation-delay: 0.0s; }
+.eq-bar:nth-child(9) { animation-duration: 0.6s; animation-delay: 0.2s; }
+.eq-bar:nth-child(10) { animation-duration: 0.4s; animation-delay: 0.4s; }
+.eq-bar:nth-child(11) { animation-duration: 0.5s; animation-delay: 0.1s; }
+.eq-bar:nth-child(12) { animation-duration: 0.6s; animation-delay: 0.3s; }
+.eq-bar:nth-child(13) { animation-duration: 0.4s; animation-delay: 0.0s; }
+.eq-bar:nth-child(14) { animation-duration: 0.5s; animation-delay: 0.2s; }
+.eq-bar:nth-child(15) { animation-duration: 0.6s; animation-delay: 0.4s; }
+
+/* Ensure controls sit above the visualizer */
+.player-content, .progress-container, .playlist-dropdown {
+    position: relative;
+    z-index: 1;
+}
+
+/* Hotbox Overlay */
+.hotbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(220, 230, 220, 0.5); /* Thicker haze */
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    z-index: 99999;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+.hotbox-overlay.active {
+    opacity: 1;
+}
+
+.smoke-cloud-left, .smoke-cloud-right {
+    position: fixed;
+    top: -20vh;
+    width: 80vw;
+    height: 140vh;
+    background: #ffffff; /* Solid white */
+    border-radius: 50%;
+    filter: blur(40px);
+    -webkit-filter: blur(40px);
+    z-index: 100000;
+    pointer-events: none;
+    opacity: 0;
+    transition: all 4s ease-in-out;
+}
+
+.smoke-cloud-left {
+    left: -80vw;
+    transform: scale(1);
+}
+
+.smoke-cloud-right {
+    right: -80vw;
+    transform: scale(1);
+}
+
+.smoke-cloud-left.active {
+    opacity: 0.8;
+    transform: translateX(60vw) scale(1.5);
+}
+
+.smoke-cloud-right.active {
+    opacity: 0.8;
+    transform: translateX(-60vw) scale(1.5);
+}
+
+@keyframes rainLeaf {
+    0% {
+        transform: translateY(-10vh) rotate(0deg) translateX(0px);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg) translateX(var(--sway));
+        opacity: 0;
+    }
+}
+.weed-leaf-rain {
+    position: fixed;
+    top: -10vh;
+    color: #4CAF50;
+    font-size: 24px;
+    z-index: 9999998;
+    pointer-events: none;
+    text-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
 }
 
