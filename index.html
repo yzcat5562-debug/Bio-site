@@ -5,23 +5,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
     <title>☽˚｡⋆ ⋆｡˚ ☁︎ ˚｡⋆｡˚</title>
+<style id="melt-animation">
+/* Superheated Snow Evaporation Animation */
+@keyframes snowEvaporate {
+    0% {
+        color: #ffffff;
+        text-shadow: 0 0 5px #fff;
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+    30% {
+        color: #ffcc00;
+        text-shadow: 0 0 15px #ff3300;
+        transform: scale(0.5) translateY(10px);
+        filter: blur(1px);
+    }
+    100% {
+        color: transparent;
+        text-shadow: none;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0) 70%);
+        border-radius: 50%;
+        transform: scale(8) translateY(-40px);
+        filter: blur(10px);
+        opacity: 0;
+    }
+}
+
+#particles.melted .particle {
+    animation-name: snowEvaporate !important;
+    animation-duration: 1.2s !important;
+    animation-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1) !important;
+    animation-iteration-count: 1 !important;
+    animation-fill-mode: forwards !important;
+    animation-delay: 0s !important; /* Force them all to evaporate instantly */
+    
+    /* Ensure they have width/height to render the steam gradient */
+    width: 15px !important;
+    height: 15px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+</style>
+
     <link rel="icon" type="image/png" href="media/ContainsThc.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_v3.css?v=97">
     <!-- FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap"
         rel="stylesheet">
-    <script>
-        if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-            document.documentElement.innerHTML = '<head><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>body { background: #000; color: #fff; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: sans-serif; text-align: center; }</style></head><body>site is fucked on mobile</body>';
-            // Stop further parsing of the document
-            if (window.stop) {
-                window.stop();
-            }
-            throw new Error('Mobile device detected, halting execution');
+    <style>
+        /* HARD OVERRIDES TO FIX LAYOUT GAP AND INVISIBLE BOX */
+        .bio-layout {
+            gap: 0 !important;
+            pointer-events: none !important;
         }
-    </script>
+        .side-panel {
+            border-right: none !important;
+            border-radius: 16px 0 0 16px !important;
+            margin-right: -1px !important;
+            pointer-events: auto !important;
+        }
+        .bio-card {
+            border-radius: 0 16px 16px 16px !important;
+            pointer-events: auto !important;
+        }
+        @media (max-width: 768px) {
+            .side-panel {
+                border-radius: 16px 16px 0 0 !important;
+                border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+                border-bottom: none !important;
+                margin-right: 0 !important;
+            }
+            .bio-card {
+                border-radius: 0 0 16px 16px !important;
+            }
+        }
+    </style>
+
+    
+<script>
+if(/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)){
+    document.body.innerHTML = '<style>body { background: #111; color: #fff; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; margin: 0; font-family: monospace; text-align: center; padding: 20px; } h1 { color: #ff3333; font-size: 1.5rem; margin-bottom: 15px; } p { color: #aaa; font-size: 1rem; line-height: 1.5; }</style><body><h1>site is fucked on mobile (site will never work on mobile)</h1><p>redirecting to guns.lol instead in <span id="countdown">5</span> seconds...</p></body>';
+    
+    if (window.stop) window.stop();
+    
+    var sec = 5;
+    setInterval(function() {
+        sec--;
+        var el = document.getElementById("countdown");
+        if(el) el.innerText = sec;
+        if(sec <= 0) window.location.href = "https://guns.lol/yzcat";
+    }, 1000);
+    
+    throw new Error("Mobile device detected, halting execution.");
+}
+</script>
     <style>
         /* Force load smoke CSS here to bypass any local caching issues */
         .real-smoke-particle {
@@ -68,13 +148,126 @@
         }
         .hotbox-overlay.active { opacity: 1; }
     </style>
+
+    <style>
+        /* HARD OVERRIDES TO FIX LAYOUT GAP AND INVISIBLE BOX */
+        .bio-layout {
+            gap: 0 !important;
+            pointer-events: none !important;
+        }
+        .side-panel {
+            border-right: none !important;
+            border-radius: 16px 0 0 16px !important;
+            margin-right: -1px !important;
+            pointer-events: auto !important;
+        }
+        .bio-card {
+            border-radius: 0 16px 16px 16px !important;
+            pointer-events: auto !important;
+        }
+        @media (max-width: 768px) {
+            .side-panel {
+                border-radius: 16px 16px 0 0 !important;
+                border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+                border-bottom: none !important;
+                margin-right: 0 !important;
+            }
+            .bio-card {
+                border-radius: 0 0 16px 16px !important;
+            }
+        }
+    </style>
 </head>
 
 <body>
+<style>
+.site-settings-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9000;
+}
+.site-settings-panel {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 10px;
+    background: rgba(15, 15, 15, 0.9);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 20px;
+    width: 240px;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    flex-direction: column;
+    gap: 15px;
+    font-family: 'Space Grotesk', sans-serif;
+}
+.site-settings-panel.active {
+    display: flex;
+}
+.site-settings-header {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.settings-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.settings-group label {
+    font-size: 0.85rem;
+    color: #ccc;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 600;
+}
+.settings-group input[type=range] {
+    width: 100%;
+    cursor: pointer;
+    accent-color: #fff;
+}
+</style>
+<div class="site-settings-container">
+    <button id="site-settings-btn" class="custom-btn" style="padding: 8px 12px; font-size: 1.1rem; border-radius: 50%; width: 45px; height: 45px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"><i class="fas fa-cog"></i></button>
+    <div id="site-settings-panel" class="site-settings-panel">
+        <div class="site-settings-header">
+            <i class="fas fa-sliders-h"></i> Settings
+        </div>
+        
+        <div class="settings-group">
+            <label for="asmr-volume"><span style="display:flex; gap:8px; align-items:center;"><i class="fas fa-keyboard"></i> Keyboard Clacks</span> <span id="asmr-volume-label">80%</span></label>
+            <input type="range" id="asmr-volume" min="0" max="1" step="0.01" value="0.8">
+        </div>
+        
+        <div class="settings-group">
+            <label for="ui-volume"><span style="display:flex; gap:8px; align-items:center;"><i class="fas fa-mouse-pointer"></i> UI Sounds</span> <span id="ui-volume-label">100%</span></label>
+            <input type="range" id="ui-volume" min="0" max="1" step="0.01" value="1.0">
+        </div>
+        
+        
+        <div class="settings-group" style="flex-direction: row; justify-content: space-between; align-items: center; margin-top: 5px;">
+            <label for="reset-speed-toggle" style="margin: 0; cursor: pointer;"><span style="display:flex; gap:8px; align-items:center;"><i class="fas fa-sync-alt"></i> Reset Speed on Switch</span></label>
+            <label class="settings-switch">
+                <input type="checkbox" id="reset-speed-toggle" checked>
+                <span class="settings-switch-slider"></span>
+            </label>
+        </div>
+        <!-- Future settings can go here easily -->
+    </div>
+</div>
     <div id="hotbox-smoke" class="hotbox-overlay"></div>
     <div id="hotbox-smoke-left" class="smoke-cloud-left"></div>
     <div id="hotbox-smoke-right" class="smoke-cloud-right"></div>
-    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 0.875rem; color: rgba(255, 255, 255, 0.5); z-index: 9999; pointer-events: none; text-align: center; width: 100%;" class="text-sm">site is fucked on mobile</div>
+    <div style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 0.875rem; color: rgba(255, 255, 255, 0.5); z-index: 9999; pointer-events: none; text-align: center; width: 100%;" class="text-sm">site is fucked on mobile (site will never work on mobile)</div>
 
     <div class="enter-screen" id="enter-screen">
         <div class="enter-text">[ click to enter ]</div>
@@ -87,8 +280,63 @@
     <div class="particles" id="particles"></div>
 
     <div class="bio-container">
-        <div class="bio-card">
-            <div class="left-column">
+        <div class="bio-layout">
+            <div class="side-panel">
+
+                <div class="steam-card-title">
+                    <i class="fab fa-steam"></i> Steam Status
+                </div>
+                <a href="#" target="_blank" class="steam-card" id="steam-card-link">
+                    <div class="steam-header">
+                        <div class="steam-avatar-wrapper">
+                            <img src="media/profile.jpg" alt="Steam Avatar" id="steam-pfp">
+                            <div class="steam-status-dot" id="steam-status-dot"></div>
+                        </div>
+                        <div class="steam-info">
+                            <div class="steam-username" id="steam-username">Loading...</div>
+                            <div class="steam-state" id="steam-state">Offline</div>
+                        </div>
+                        <div class="steam-badge-section" id="steam-badge-section" style="display: none;">
+                            <img id="steam-badge-icon" class="steam-badge-icon" src="" alt="Badge">
+                            <div class="steam-tooltip" id="steam-tooltip">
+                                <div class="steam-tooltip-title">Years of Service</div>
+                                <div class="steam-tooltip-desc" id="steam-tooltip-desc">Member since...</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="steam-game-section" id="steam-game-section">
+                        <img src="" alt="Game Capsule" class="steam-game-capsule" id="steam-game-capsule">
+                        <div class="steam-game-details">
+                            <div class="steam-game-title" id="steam-game-title">Unknown Game</div>
+                            <div class="steam-game-time" id="steam-game-time">In game</div>
+                        </div>
+                    </div>
+                </a>
+                <div class="steam-card-title" style="margin-top: 25px;">
+                    <i class="fas fa-keyboard"></i> Words Per Minute Test
+                </div>
+                <div class="typing-test-card" id="typing-test-card">
+                    <div class="typing-header">
+                        <span id="typing-wpm">0 WPM</span>
+                        <span id="typing-timer">15s</span>
+                    </div>
+                    <div class="typing-word-display" id="typing-word-display">
+                        click here to start typing...
+                    </div>
+                    <input type="text" id="typing-input" autocomplete="off" spellcheck="false" class="typing-hidden-input">
+                    <div class="typing-start-overlay" id="typing-start-overlay">
+                        <button class="typing-restart-btn" id="typing-start-btn" style="padding: 8px 16px; font-size: 0.9rem; border-radius: 8px; font-weight: bold; background: rgba(255, 255, 255, 0.15);"><i class="fas fa-play" style="margin-right: 5px;"></i> Start Test</button>
+                    </div>
+                    <div class="typing-overlay" id="typing-overlay">
+                        <h3 id="typing-final-wpm">0 WPM</h3>
+                        <p id="typing-final-acc">0% Accuracy</p>
+                        <button class="typing-restart-btn" id="typing-restart-btn"><i class="fas fa-redo"></i> Retry</button>
+                    </div>
+                </div>
+
+            </div>
+            <div class="bio-card" style="overflow: hidden;">
+                <div class="left-column">
                 <div class="atheist-badge">
                     <img src="media/atheist.png" alt="Atheist Symbol" class="atheist-icon">
                     <span class="atheist-text">Proud Atheist</span>
@@ -174,18 +422,7 @@
                         </div>
                     </div>
 
-                    <div class="social-dropdown">
-                        <a href="javascript:void(0)" class="social-link" style="--clr: #ffffff;"><i class="fas fa-envelope"></i></a>
-                        <div class="dropdown-content" style="min-width: 190px;">
-                            <div style="padding: 4px 2px 6px; color: #a0a0a0; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.5px;">Email</div>
-                            <a href="javascript:void(0)" id="copy-email-btn" onclick="
-                                navigator.clipboard.writeText('yzcat5562@gmail.com');
-                                this.textContent = 'Copied!';
-                                this.style.color = '#00ff88';
-                                setTimeout(() => { this.textContent = 'yzcat5562@gmail.com'; this.style.color = ''; }, 2000);
-                            ">yzcat5562@gmail.com</a>
-                        </div>
-                    </div>
+                    <a href="javascript:void(0)" class="social-link" style="--clr: #ffffff;" onclick="showEmailModal()"><i class="fas fa-envelope"></i></a>
 
                     <a href="https://kick.com/yzcat420" class="social-link" style="--clr: #ffffff;" target="_blank">
                         <img src="https://cdn.simpleicons.org/kick/white" alt="Kick" style="width: 1.2em; height: 1.2em; filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.3)); transition: all 0.3s ease;" onmouseover="this.style.filter='drop-shadow(0 0 8px rgba(255, 255, 255, 0.8))'" onmouseout="this.style.filter='drop-shadow(0 0 4px rgba(255, 255, 255, 0.3))'">
@@ -232,27 +469,49 @@
                                 </a>
                                 <a href="https://www.youtube.com/watch?v=6NJyybw5CrE" target="_blank" style="color: #ff0000; font-size: 1.2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.2)'" onmouseout="this.style.transform='scale(1)'" title="Stalkie | Troll Script Tutorial/Showcase *FREE*">
                                     <i class="fab fa-youtube"></i>
-                                </a>
-                            </div>
-                        </div>
+                                  </a>
+                              </div>
+                          </div>
 
-                    </div>
-                </div>
+                      </div>
+                  </div>
 
-                <button class="custom-btn" id="update-log-btn" style="justify-content: center; font-weight: 600; font-size: 1rem; margin-top: 16px;">
-                    <i class="fas fa-history" style="margin-right: 8px;"></i> Update Log
-                </button>
-                
-            </div>
+                  <button class="custom-btn" id="update-log-btn" style="justify-content: center; font-weight: 600; font-size: 1rem; margin-top: 16px;">
+                      <i class="fas fa-history" style="margin-right: 8px;"></i> Update Log
+                  </button>
 
-            <div class="right-column">
-                <div class="links-section">
-                    <a href="https://www.youtube.com/@YzCat123" class="custom-btn yt-btn" target="_blank">
-                        <img src="media/yt-pfp.png" class="btn-icon-img" alt="YT">
+                  <!-- Aesthetic Rolling Joint Easter Egg -->
+                  <div class="aesthetic-joint-wrapper" id="aesthetic-joint" title="roll it">
+                      <div class="joint-shadow"></div>
+                      <div class="the-joint">
+                          <div class="joint-tip"></div>
+                          <div class="cherry-glow"></div>
+                          <div class="joint-body"></div>
+                          <div class="joint-filter"></div>
+                          <div class="smoke-particle s1"></div>
+                          <div class="smoke-particle s2"></div>
+                          <div class="smoke-particle s3"></div>
+                      </div>
+                      <div class="weed-sprinkles">
+                          <div class="w-part p1"></div>
+                          <div class="w-part p2"></div>
+                          <div class="w-part p3"></div>
+                          <div class="w-part p4"></div>
+                          <div class="w-part p5"></div>
+                          <div class="w-part p6"></div>
+                      </div>
+                      <div class="rolling-hands-sprite"></div>
+                  </div>
+              </div>
+
+              <div class="right-column">
+                  <div class="links-section">
+                      <a href="javascript:void(0)" class="custom-btn yt-btn" id="open-achievements-btn" onclick="openAchModal()">
+                          <i class="fas fa-trophy" style="font-size: 28px; color: #33ff66; margin-right: 15px; text-shadow: 0 0 10px rgba(51, 255, 102, 0.5);"></i>
                         <div class="yt-text-wrapper">
-                            <div class="yt-username"><i class="fab fa-youtube" style="color: #FF0000;"></i> YzCat123</div>
-                            <div class="yt-stats">
-                                <span id="yt-subs">1.5K</span> Subscribers
+                            <div class="yt-username" style="color: #33ff66; text-shadow: 0 0 5px rgba(51, 255, 102, 0.5);">Achievements</div>
+                            <div class="yt-stats" style="color: #a0a0a0;">
+                                <span id="unlocked-count">0</span>/9 Unlocked
                             </div>
                         </div>
                     </a>
@@ -313,6 +572,12 @@
                                 <i class="fas fa-volume-up" id="mute-btn"></i>
                                 <div class="volume-slider-container">
                                     <input type="range" id="volume-slider" min="0" max="1" step="0.01" value="0.2">
+                                </div>
+                            </div>
+                            <div class="speed-wrapper" title="Double-click to reset speed">
+                                <i class="fas fa-tachometer-alt" id="speed-icon"></i>
+                                <div class="speed-slider-container">
+                                    <input type="range" id="speed-slider" min="0.5" max="1.5" step="0.01" value="1.0">
                                 </div>
                             </div>
                             <a href="https://open.spotify.com/playlist/76PkHItqyZ1KlfvxbM4eYB?si=76a82b44178a4f46" target="_blank" class="spotify-link" title="Open Spotify Playlist">
@@ -412,20 +677,19 @@
                         </div>
 
                     </div>
-                </div>
             </div>
-        </div>
+
         </div>
     </div>
-
-    <!-- Audio element for background music. Replace src with your own audio file or link -->
+    </div>
+</div>
+        <!-- Audio element for background music. Replace src with your own audio file or link -->
     <audio id="bg-music" loop>
         <source src="media/bg-music.mp3" type="audio/mpeg">
     </audio>
     <audio id="bong-hit-audio" preload="auto">
         <source src="media/Bong-Hit.mp3" type="audio/mpeg">
     </audio>
-
     <!-- Update Log Modal -->
     <div id="update-modal" class="modal">
         <div class="modal-content">
@@ -437,6 +701,40 @@
                 <p style="color: #a0a0a0; font-size: 0.95rem; margin-bottom: 20px; font-style: italic; text-align: center;">
                     I try to add new features every friday or release some type of update
                 </p>
+                                <div class="log-entry" style="margin-bottom: 15px;">
+                    <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">September 6, 2026</h3>
+                    <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Added a custom live Words Per Minute (WPM) typing test widget to the sidebar. Test your typing speed with custom sentences!</li>
+                        <li>Added a secret Styrofoam Double Cup easter egg. Pour Cough Syrup, Sprite, and Cotton Candy into the cup to activate a temporary Chopped & Screwed slow-mo mode!</li>
+                        <li>Added a brand new Xbox/Steam style Achievement system to track easter eggs and secrets, complete with toast notifications and a dedicated progress menu.</li>
+                        <li>Fixed a major layout bug where the main bio panel would clip off the top and bottom of smaller laptop screens. The site now automatically scales perfectly to your monitor's height.</li>
+                    </ul>
+                </div>
+<div class="log-entry" style="margin-bottom: 15px;">
+                    <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">September 4th</h3>
+                    <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Added premium tactile UI Sound Design (Hover ticks, crisp click taps, and modal swooshes) with a volume slider in the settings panel.</li>
+                        <li>Added a custom pixel-art animation of hands continuously rolling a joint (complete with dropping green particles) to the bottom of the main panel for extra aesthetic detail.</li>
+                        <li>Added a hidden "Overdrive" easter egg to the music volume slider. Forcing the volume past 100% physically shatters the slider, triggering extreme bass-boosted audio distortion and chaotic red screen-shake effects.</li>
+                        <li>Added a "Music Speed" slider (Chopped & Screwed / Nightcore mode) next to the volume control with true pitch-shifting functionality.</li>
+                        <li>Implemented local browser caching so the site now permanently remembers your custom configurations in the Settings menu across visits.</li>
+                    </ul>
+                </div>
+                
+                <div class="log-entry" style="margin-bottom: 15px;">
+                    <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">September 3, 2026</h3>
+                    <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
+                        <li>Completely resolved the massive visual ghosting glitch caused by 3D rendering the frosted glass panel over the background video on certain WebKit browsers.</li>
+                        <li>Disabled body scrolling on the main page to fix weird bounding box issues.</li>
+                        
+                        <li>Added a new high-quality ASMR Mechanical Keyboard feature that plays authentic custom switch sounds when typing.</li>
+                        <li>Added a sleek Settings menu (gear icon in the top left) to easily adjust the volume of the keyboard clacks.</li>
+                          <li>Added a brand new live Steam status card that dynamically shows exactly what game I'm playing in real-time.</li>
+                          <li>Added a secret cheat code: type "420" anywhere on the site to trigger a massive blunt drop, drifting hotbox smoke particles, and a Snoop Dogg audio/visual takeover.</li>
+                          <li>Overhauled the 3D dynamic panel tilt effect to be buttery smooth using screen-center physics and refresh-rate syncing, eliminating all jitter.</li>
+                    </ul>
+                </div>
+                                
                 <div class="log-entry" style="margin-bottom: 15px;">
                     <h3 style="color: #a0a0a0; font-size: 0.9rem; margin-bottom: 10px;">September 1, 2026</h3>
                     <ul style="list-style-type: disc; margin-left: 20px; font-size: 0.9rem; line-height: 1.6; color: #e0e0e0;">
@@ -445,6 +743,7 @@
                         <li>Made the joint icon next to my name clickable, linking straight to the Leafly page for Granddaddy Purple.</li>
                         <li>Added a secret "Hotbox" easter egg — drag the bong icon next to my name onto my profile picture to see what happens.</li>
                         <li>Added a daily 4:20 PM (UK Time) alarm that flashes the screen green and rains weed leaves behind the main panel.</li>
+                        <li>Replaced the buggy email tooltip with a brand new, clean popup modal that lets you easily copy my email address.</li>
                     </ul>
                 </div>
                 <div class="log-entry" style="margin-bottom: 15px;">
@@ -514,8 +813,18 @@
             </div>
         </div>
     </div>
-
-    <!-- Pekora.zip login toast -->
+    <!-- Achievements Modal -->
+    <div id="achievements-modal" class="modal">
+        <div class="modal-content" style="max-width: 450px;">
+            <div class="modal-header">
+                <span class="close-btn" id="close-achievements-modal" onclick="closeAchModal()">&times;</span>
+                <h2 style="font-weight: 700; display: flex; align-items: center; gap: 10px;"><i class="fas fa-trophy" style="color: #33ff66;"></i> Achievements</h2>
+            </div>
+            <div class="modal-body" id="achievements-list" style="display: flex; flex-direction: column; gap: 12px; max-height: 60vh; overflow-y: auto; padding-right: 5px;">
+                <!-- Filled by JS -->
+            </div>
+        </div>
+    </div>
     <!-- Pekora.zip login modal -->
     <div id="pekora-modal" class="pekora-modal-overlay" onclick="closePekoraModal(event)">
         <div class="pekora-modal-box">
@@ -530,58 +839,214 @@
             </a>
         </div>
     </div>
-
+    <!-- Email modal -->
+    <div id="email-modal" class="pekora-modal-overlay" onclick="closeEmailModal(event)">
+        <div class="pekora-modal-box">
+            <button class="pekora-modal-close" onclick="closeEmailModalBtn()">&times;</button>
+            <div class="pekora-modal-icon" style="font-size: 2.8rem; line-height: 1; color: #ffffff;"><i class="fas fa-envelope"></i></div>
+            <h3 class="pekora-modal-title">Email Contact</h3>
+            <p class="pekora-modal-desc">Click below to easily <strong>copy</strong> my email address.</p>
+            <a href="javascript:void(0)" class="pekora-modal-btn" onclick="navigator.clipboard.writeText('yzcat5562@gmail.com'); this.innerHTML = '<i class=\'fas fa-check\'></i> Copied!'; this.style.backgroundColor = 'rgba(76, 175, 80, 0.2)'; this.style.borderColor = '#4CAF50'; this.style.color = '#4CAF50'; setTimeout(() => { this.innerHTML = '<i class=\'fas fa-copy\'></i> yzcat5562@gmail.com'; this.style.backgroundColor = ''; this.style.borderColor = ''; this.style.color = ''; }, 2000);">
+                <i class="fas fa-copy"></i>
+                yzcat5562@gmail.com
+            </a>
+        </div>
+    </div>
     <!-- VacBan login modal -->
     <div id="vacban-modal" class="pekora-modal-overlay" onclick="closeVacbanModal(event)">
         <div class="pekora-modal-box">
             <button class="pekora-modal-close" onclick="closeVacbanModalBtn()">&times;</button>
-            <div class="pekora-modal-icon" style="font-size: 2.8rem; line-height: 1;">🚫</div>
-            <h3 class="pekora-modal-title">vacban.wtf</h3>
-            <p class="pekora-modal-desc">Forum/shop community mainly for <strong>CS2</strong>. You do need an <strong>invite code</strong> to join.</p>
-            <p class="pekora-modal-msg">You'll need to be <strong>logged in</strong> to view this profile!</p>
-            <a href="https://vacban.wtf/members/118645/" target="_blank" class="pekora-modal-btn" onclick="closeVacbanModalBtn()">
-                <i class="fas fa-external-link-alt"></i>
-                vacban.wtf/members/118645
+            <div class="pekora-modal-icon"><img src="media/JewLogo.png" alt="VacBan" style="max-width: 150px; width: 100%; height: auto; object-fit: contain;"></div>
+            <h3 class="pekora-modal-title">VacBan</h3>
+            <p class="pekora-modal-desc">Currently working on a <strong>new platform</strong>.</p>
+            <p class="pekora-modal-msg">Check back soon for updates!</p>
+            <a href="javascript:void(0)" class="pekora-modal-btn" onclick="closeVacbanModalBtn()">
+                <i class="fas fa-hammer"></i>
+                Under Construction
             </a>
         </div>
     </div>
+    <script src="script_v3.js?v=101"></script>
+    
 
-    <!-- macOS Style Song Notification -->
-    <div id="song-notification" class="macos-notification">
-        <div class="notif-icon">
-            <i class="fas fa-music"></i>
-        </div>
-        <div class="notif-content">
-            <div class="notif-title">Now Playing</div>
-            <div class="notif-song" id="notif-song-name">Song Name</div>
-        </div>
-    </div>
 
-    <script src="script.js"></script>
-    <script>
-        function showPekoraModal() {
-            document.getElementById('pekora-modal').classList.add('show');
-        }
-        function closePekoraModalBtn() {
-            document.getElementById('pekora-modal').classList.remove('show');
-        }
-        function closePekoraModal(e) {
-            if (e.target === document.getElementById('pekora-modal')) {
-                document.getElementById('pekora-modal').classList.remove('show');
-            }
-        }
-        function showVacbanModal() {
-            document.getElementById('vacban-modal').classList.add('show');
-        }
-        function closeVacbanModalBtn() {
-            document.getElementById('vacban-modal').classList.remove('show');
-        }
-        function closeVacbanModal(e) {
-            if (e.target === document.getElementById('vacban-modal')) {
-                document.getElementById('vacban-modal').classList.remove('show');
-            }
-        }
-    </script>
+
+<script>
+window.openAchModal = function() {
+    try { if (window.renderAchievementsList) window.renderAchievementsList(); } catch(e) { console.error(e); }
+    var m = document.getElementById("achievements-modal");
+    if(m) m.classList.add("show");
+};
+window.closeAchModal = function() {
+    var m = document.getElementById("achievements-modal");
+    if(m) m.classList.remove("show");
+};
+window.addEventListener("click", function(e) {
+    var m = document.getElementById("achievements-modal");
+    if (e.target === m) {
+        window.closeAchModal();
+    }
+});
+</script>
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
